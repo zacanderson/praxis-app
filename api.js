@@ -25,14 +25,17 @@ exports.setApp = function(app, client){
 			firstName = results[0].FirstName;
 			lastName = results[0].LastName;
 			
+			try{
+				ret = jwt.createToken( firstName, lastName, id );
+			  } catch(e) {
+				ret = {error:e.message};
+			  }
+
+		}else{
+			ret = {error: "user does not exist"};
 
 		}
-
-		try{
-        	ret = jwt.createToken( firstName, lastName, id );
-      	} catch(e) {
-        	ret = {error:e.message};
-      	}
+		
 
 		res.status(200).json(ret);
 
