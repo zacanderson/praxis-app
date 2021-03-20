@@ -1,5 +1,6 @@
 require('express');
 require('mongodb');
+const md5 = require('md5');
 
 const jwt = require('../createJWT');
 const User = require('../models/Users.js');
@@ -11,7 +12,9 @@ exports.setApp = function(app, client){
 
 		var error = '';
 		
-		const { Login, Password } = req.body;
+		let { Login, Password } = req.body;
+
+		Password = md5(Password);
 
 		const results = await User.find({ Login: Login, Password: Password });
 

@@ -1,5 +1,6 @@
 require('express');
 require('mongodb');
+const md5 = require('md5');
 
 const jwt = require('../createJWT');
 const User = require('../models/Users.js');
@@ -7,7 +8,9 @@ const User = require('../models/Users.js');
 
 exports.setApp = function (app, client) {
 	app.post('/api/register', async (req, res, next) => {
-		const { Login, Password, FirstName, LastName } = req.body;
+		let { Login, Password, FirstName, LastName } = req.body;
+
+		Password = md5(Password);
 
 		var error = '';
 
