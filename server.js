@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const fs = require('fs');
 require('dotenv').config();
 
 const path = require('path');
@@ -20,8 +21,14 @@ mongoose.connect(url)
 	.then(() => console.log("MongoDB connected"))
 	.catch(err => console.log(err));
 
-var api = require('./api.js');
-api.setApp( app, mongoose );
+
+const endPoints = fs.readdirSync('./api').filter(file => file.endsWith('.js'));
+for(const file of endPoints){
+	var api = require(`./api/${file}`);
+	api.setApp( app, mongoose );
+
+}
+
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') 

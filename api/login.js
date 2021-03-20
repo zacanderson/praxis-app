@@ -1,8 +1,8 @@
 require('express');
 require('mongodb');
 
-const jwt = require('./createJWT');
-const Users = require('./models/Users.js');
+const jwt = require('../createJWT');
+const Users = require('../models/Users.js');
 
 exports.setApp = function(app, client){
 	
