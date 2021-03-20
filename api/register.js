@@ -12,15 +12,21 @@ exports.setApp = function (app, client) {
 		var error = '';
 
 		const newUser = new User({ Login: Login, Password: Password, FirstName: FirstName, LastName: LastName });
+		
+		const results = await User.find({ Login: Login });
 
+		if(results.length > 0) {
+			error = 'User already exists.';
 
-		try{
-			newUser.save();
-
-		} catch (e) {
-			error = e.message;
-			console.log(e.message);
-
+		}else {
+			try{
+				newUser.save();
+	
+			} catch (e) {
+				error = e.message;
+				console.log(e.message);
+	
+			}
 		}
 
 		var ret = { error: error };

@@ -2,7 +2,7 @@ require('express');
 require('mongodb');
 
 const jwt = require('../createJWT');
-const Users = require('../models/Users.js');
+const User = require('../models/Users.js');
 
 exports.setApp = function(app, client){
 	
@@ -13,7 +13,7 @@ exports.setApp = function(app, client){
 		
 		const { Login, Password } = req.body;
 
-		const results = await Users.find({ Login: Login, Password: Password });
+		const results = await User.find({ Login: Login, Password: Password });
 
 
 		var id = -1;
@@ -32,7 +32,7 @@ exports.setApp = function(app, client){
 			  }
 
 		}else{
-			ret = {error: "user does not exist"};
+			ret = {error: 'username/password is incorrect'};
 
 		}
 		
