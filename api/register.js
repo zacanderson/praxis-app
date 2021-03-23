@@ -1,6 +1,7 @@
 require('express');
 require('mongodb');
-const md5 = require('md5');
+require("dotenv").config();
+const bcrypt = require('bcrypt');
 
 const jwt = require('../createJWT');
 const User = require('../models/Users.js');
@@ -8,36 +9,54 @@ const User = require('../models/Users.js');
 
 exports.setApp = function (app, client) {
 	app.post('/api/register', async (req, res, next) => {
+		//get incoming json data
 		let { Login, Password, FirstName, LastName } = req.body;
 
-		Password = md5(Password);
-
+		var ret = {};
 		var error = '';
 
-		const newUser = new User({ Login: Login, Password: Password, FirstName: FirstName, LastName: LastName });
-		
+		//check to see if a user already exists with the username
 		const results = await User.find({ Login: Login });
-
 		if(results.length > 0) {
 			error = 'User already exists.';
-
+			res.status(200).json( {error: error });
+			return;
+			
 		}else {
-			try{
-				newUser.save();
+			//use bcrypt to hash
+			const hash = await bcrypt.hash(Password, Number(process.env.SALT_ROUNDS));
+			const newUser = new User({ Login: Login, Password: hash, FirstName: FirstName, LastName: LastName });
+
+			//im new to promises so this may not be correctly used but it works
+			const newPromise = new Promise(function (resolve, reject) {
+				try {
+					//save user to database
+					newUser.save(function (err, savedUser) {
+						//create token and return it to client
+						var ret = jwt.createToken(savedUser.FirstName, savedUser.LastName, savedUser._id);
+						resolve(ret);
+					});
 	
-			} catch (e) {
-				error = e.message;
-				console.log(e.message);
+					
+					
+				} catch (e) {
+					error = e.message;
+					console.log(e.message);
+					var ret = { error: error };
+					reject(ret);
+				}
+			});
+
+			newPromise.then( function (ret) {
+				res.status(200).json(ret);
 	
-			}
+			}).catch( function (ret) {
+				res.status(200).json(ret);
+	
+			});
+
 		}
-
-		var ret = { error: error };
-		res.status(200).json(ret);
 		
-
-
-
 	});
 
 }
