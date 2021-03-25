@@ -1,5 +1,4 @@
 require("dotenv").config();
-const url = 'https://praxis-habit-tracker.herokuapp.com/'
 const User = require('../../models/Users.js');
 const Verify = require('../../models/Verification.js');
 const bcrypt = require('bcrypt');
@@ -8,7 +7,7 @@ const mongoose = require('mongoose');
 
 exports.setGet = function (app, client){
 
-	app.get(`${url}api/verification/email-auth/:userID/:accessToken`, async (req, res) => {
+	app.get('/api/verification/email-auth/:userID/:accessToken', async (req, res) => {
 		
 		//get url params
 		const { userID, accessToken } = req.params;
