@@ -7,6 +7,10 @@ const UserSchema = new Schema({
 	UserId:{
 		type: Int32
 	},
+	Email:{
+		type: String,
+		required: true,
+	},
 	FirstName: {
 		type: String,
 		required: true
@@ -22,8 +26,12 @@ const UserSchema = new Schema({
 	Password: {
 		type: String,
 		required: true
+	},
+	Status: {
+		type: String,
+		default: "pending"
 	}
 
 }, { collection: 'Users'} );
 
-module.exports = user = mongoose.model("Users", UserSchema);
+module.exports = mongoose.model("Users", UserSchema);

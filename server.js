@@ -29,6 +29,13 @@ for(const file of endPoints){
 
 }
 
+//set up verification stuff
+const verifyEndPoints = fs.readdirSync('./api/Verification').filter(file => file.endsWith('.js'));
+for(const file of verifyEndPoints){
+	var api = require(`./api/Verification/${file}`);
+	api.setGet( app, mongoose );
+
+}
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') 
