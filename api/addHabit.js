@@ -1,27 +1,28 @@
 require('express');
 require('mongodb');
 require('dotenv').config();
+exports.setApp = function (app, client) {
+	app.post('/api/addHabit.js', async (req, res, next) => {
 
-app.post('/api/addHabit.js', async (req, res, next) => {
+		var error = '';
 
-	var error = '';
+		const {habit, UserID} = req.body;	
 
-	const {habit, UserID} = req.body;	
+		const newHabit = {HabitName:habit, UserId:UserID}
 
-	const newHabit = {HabitName:habit, UserId:UserID}
+		try
+		{
+			const db = client.db();
+			const result = db.collection('Cards').insertOne(newCard);
+		}
+		catch(e)
+		{
+			error = e.toString();
+		}
 
-	try
-	{
-		const db = client.db();
-		const result = db.collection('Cards').insertOne(newCard);
-	}
-	catch(e)
-	{
-		error = e.toString();
-	}
+		habitList.push(HabitName);
+		var ret = {error:error}
+		res.status(200).json(ret);
 
-	habitList.push(HabitName);
-	var ret = {error:error}
-	res.status(200).json(ret);
-
-});
+	});
+}
