@@ -1,11 +1,14 @@
+require("dotenv").config();
 const url = 'https://praxis-habit-tracker.herokuapp.com/'
 const User = require('../../models/Users.js');
 const Verify = require('../../models/Verification.js');
+const bcrypt = require('bcrypt');
+
 const mongoose = require('mongoose');
 
 exports.setGet = function (app, client){
 
-	app.get('/api/verification/email-auth/:userID/:accessToken', async (req, res) => {
+	app.get(`${url}/api/verification/email-auth/:userID/:accessToken`, async (req, res) => {
 		
 		//get url params
 		const { userID, accessToken } = req.params;
@@ -17,11 +20,13 @@ exports.setGet = function (app, client){
 		//if user exists
 		if(result.length > 0){
 			//check Verification collection
-			const verifyCollection = await Verify.find({ accessToken: accessToken });
+			const verifyCollection = await Verify.find({ UserID: objID });
 
-			if(verifyCollection.length > 0) {
+			if(bcrypt.compare(accessToken, verifyCollection[0].accessToken)) {
 				//set email status to verified
 				await User.updateOne({ _id: objID }, {$set: { Status: 'Verified' } });
+				//redirect to email verified page
+				res.redirect('https://praxis-habit-tracker.herokuapp.com/');
 				
 			}
 		}
