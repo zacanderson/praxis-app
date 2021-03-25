@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 exports.setGet = function (app, client){
 
-	app.get(`${url}/api/verification/email-auth/:userID/:accessToken`, async (req, res) => {
+	app.get(`${url}api/verification/email-auth/:userID/:accessToken`, async (req, res) => {
 		
 		//get url params
 		const { userID, accessToken } = req.params;
