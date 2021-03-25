@@ -55,6 +55,11 @@ function Login(){
 		}
 	};
 
+	const resetPass = async event => {
+		event.preventDefault();
+		window.location.href = '/SendReset';
+	}
+
 	return(
 		<div id="loginDiv">
 			<form onSubmit={doLogin}>
@@ -62,6 +67,7 @@ function Login(){
 			<input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c}  /><br />
 			<input type="password" id="loginPassword" placeholder="Password"  ref={(c) => loginPassword = c} /><br />
 			<input type="submit" id="loginButton" class="buttons" value = "Do It" onClick={doLogin} />
+			<input type="submit" id="resetPassword" class="buttons" value = "Reset Password" onClick={resetPass} />
 			</form>
 			<span id="loginResult">{message}</span>
 		</div>
