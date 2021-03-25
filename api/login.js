@@ -22,31 +22,32 @@ exports.setApp = function (app, client) {
 		let firstName = '';
 		let lastName = '';
 
+
 		//if there is a user with the same login, check password match
 		if (results.length > 0) {
 			const match = await bcrypt.compare(Password, results[0].Password);
 
 			//if a match create token
+			console.log(match);
 			if (match) {
+				console.log(match);
 				id = results[0].UserId;
 				firstName = results[0].FirstName;
 				lastName = results[0].LastName;
 
 				try {
-					ret = jwt.createToken(firstName, lastName, id);
+					var ret = jwt.createToken(firstName, lastName, id);
+					res.status(200).json(ret);
+					return;
 				} catch (e) {
-					ret = { error: e.message };
-				}
+					error = e.message;
 
+				}	
 			}
-
-		//otherwise return an error
-		} else {
-			ret = { error: 'username/password is incorrect' };
-
 		}
 
-
+		//otherwise return an error
+		var ret = { error: 'username/password is incorrect' };
 		res.status(200).json(ret);
 
 	});
