@@ -30,6 +30,9 @@ const UserSchema = new Schema({
 	Status: {
 		type: String,
 		default: "pending"
+	},
+	Habits: {
+		type: Array
 	}
 
 }, { collection: 'Users'} );
