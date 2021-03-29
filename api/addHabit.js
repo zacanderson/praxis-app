@@ -29,8 +29,6 @@ exports.setApp = function (app, client) {
 			error = e.toString();
 		}
 
-
-		habitList.push(habit);
 		var ret = {error:error}
 		res.status(200).json(ret);
 
