@@ -1,7 +1,8 @@
+
 require('express');
 require('mongodb');
 require('dotenv').config();
-const User = require('../models/Habits.js');
+const Habit = require('../models/Habits.js');
 
 exports.setApp = function (app, client) {
 
@@ -10,21 +11,24 @@ exports.setApp = function (app, client) {
 		var error = '';
 
 		//get habit name
-		const {habit, UserID} = req.body;	
+		//const {habit, UserID} = req.body;	
 
-		const newHabit = {HabitName:habit, UserId:UserID}
+		const newHabit = new Habit({Habitname:habit, UserId:UserID});
 
-		/*
+
 		try
 		{
-			const db = client.db();
-			const result = db.collection('Habits').insertOne(newHabit);
+			//const db = client.db();
+			//const result = db.collection('Habits').insertOne(newHabit);
+			newHabit.save();
+
+
 		}
 		catch(e)
 		{
 			error = e.toString();
 		}
-		*/
+
 
 		habitList.push(habit);
 		var ret = {error:error}
@@ -32,3 +36,5 @@ exports.setApp = function (app, client) {
 
 	});
 }
+
+ 
