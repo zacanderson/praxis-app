@@ -19,7 +19,7 @@ exports.setApp = function ( app, client )
       const { userId, habit, jwtToken } = req.body;
       var error = '';
 //      const newCard = {Card:card,UserId:userId};
-      const newCard = new Card({ Card: card, UserId: userId });
+      const newCard = new Card({ Habit: habit, UserId: userId });
 
       if( jwt.isExpired(jwtToken))
       {
