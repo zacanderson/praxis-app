@@ -5,7 +5,7 @@ const User = require('../models/Habits.js');
 
 exports.setApp = function (app, client) {
 
-	app.post('/api/addHabit.js', async (req, res, next) => {
+	app.post('/api/addHabit', async (req, res, next) => {
 
 		var error = '';
 
