@@ -37,6 +37,10 @@ for(const file of verifyEndPoints){
 
 }
 
+var api = require('./api.js');
+//api.setApp( app, client );
+api.setApp( app, mongoose );
+
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') 
 {
