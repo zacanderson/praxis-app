@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 const url = process.env.MONGODB_URI;
 const mongoose = require('mongoose');
 
-mongoose.connect(url, {useNewUrlParser : true})
+mongoose.connect(url, {useNewUrlParser : true, useUnifiedTopology: true,  useCreateIndex : true})
 	.then(() => console.log("MongoDB connected"))
 	.catch(err => console.log(err));
 
