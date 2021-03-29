@@ -6,7 +6,7 @@ const HabitSchema = new Schema({
 	UserId:{
 		type: Int32
 	},
-	Habit:{
+	Habitname:{
 		type: String,
 		required: true,
 	}
