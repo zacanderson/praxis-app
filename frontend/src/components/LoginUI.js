@@ -59,6 +59,10 @@ function Login(){
 		event.preventDefault();
 		window.location.href = '/SendReset';
 	}
+	const register = async event => {
+		event.preventDefault();
+		window.location.href = '/Register';
+	}
 
 	return(
 		<div id="loginDiv">
@@ -68,6 +72,7 @@ function Login(){
 			<input type="password" id="loginPassword" placeholder="Password"  ref={(c) => loginPassword = c} /><br />
 			<input type="submit" id="loginButton" class="buttons" value = "Do It" onClick={doLogin} />
 			<input type="submit" id="resetPassword" class="buttons" value = "Reset Password" onClick={resetPass} />
+			<input type="submit" id="resetPassword" class="buttons" value = "Register" onClick={register} />
 			</form>
 			<span id="loginResult">{message}</span>
 		</div>
