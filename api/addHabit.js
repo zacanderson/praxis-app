@@ -11,7 +11,7 @@ exports.setApp = function (app, client) {
 		var error = '';
 
 		//get habit name
-		//const {habit, UserID} = req.body;	
+		const {habit, UserID} = req.body;	
 
 		const newHabit = new Habit({Habitname:habit, UserId:UserID});
 
