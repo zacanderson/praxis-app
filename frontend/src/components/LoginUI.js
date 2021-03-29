@@ -74,7 +74,7 @@ function Login(){
 			<input type="submit" id="resetPassword" class="buttons" value = "Reset Password" onClick={resetPass} />
 			<input type="submit" id="resetPassword" class="buttons" value = "Register" onClick={register} />
 			</form>
-			<span id="loginResult">Hello{message}</span>
+			<span id="loginResult">{message}</span>
 		</div>
 
 	);
