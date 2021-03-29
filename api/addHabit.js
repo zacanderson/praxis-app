@@ -14,6 +14,7 @@ exports.setApp = function (app, client) {
 
 		const newHabit = {HabitName:habit, UserId:UserID}
 
+		/*
 		try
 		{
 			const db = client.db();
@@ -23,6 +24,7 @@ exports.setApp = function (app, client) {
 		{
 			error = e.toString();
 		}
+		*/
 
 		habitList.push(habit);
 		var ret = {error:error}
