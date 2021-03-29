@@ -11,3 +11,79 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#root {
+  height: 100%;
+}
+
+
+#loginDiv
+{
+    font-size: 30px;
+    width: 100%;
+    padding: 10px;
+    background-color: #c9c9c9;
+
+    display: inline-block;
+    height: 100%;
+    margin:auto;
+    margin-left: 10%;
+    vertical-align:top;
+    margin-top: 5%;
+
+
+
+    font-size: 30px;
+    width: 30%;
+    padding: 10px;
+    background: -webkit-gradient(linear, left top, right top, from(#919191), to(#c5c5c5));
+    background: linear-gradient(to right, #919191, #c5c5c5);
+    display: inline-block;
+    height: 100%;
+    margin: auto;
+    margin-left: 10%;
+    vertical-align: top;
+    margin-top: 5%;
+    border-width: 3px;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+}
+
+input[type="text"],input[type="password"]{
+    
+  width: 80%;
+  height: 9%;
+  text-align: left;
+  margin-bottom: 4%;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+input[type="submit"]
+{
+  background-color: rgb(100, 100, 100);
+  color: black;
+  width: 80%;
+  height: 9%;
+}
+
+input[type="submit"]:hover {
+  background-color: #ffffff; /* Green */
+  color: rgb(100, 100, 100);
+  border-color: rgb(100, 100, 100);
+}
+
+#registerButton, #loginButton
+{
+    /*
+    font-size: 30px;
+    border-radius: 25px;
+    width: 50%;
+    margin-left: 25%;
+    font-family: 'Ubuntu', sans-serif;
+    */
+    /*copy from input type=submit*/
+    background-color: rgb(100, 100, 100);
+    color: black;
+    width: 80%;
+    height: 9%;
+}

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 function Login(){
 
 	const storage = require('../tokenStorage.js');
+	
 	const bp = require('./bp.js');
 
 	var loginName;
@@ -65,12 +67,12 @@ function Login(){
 	}
 
 	return(
-		<div id="loginDiv">
+		<div id="loginDiv" className="Login">
 			<form onSubmit={doLogin}>
 			<span id="inner-title">PLEASE LOG IN</span><br />
 			<input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c}  /><br />
 			<input type="password" id="loginPassword" placeholder="Password"  ref={(c) => loginPassword = c} /><br />
-			<input type="submit" id="loginButton" class="buttons" value = "Do It" onClick={doLogin} />
+			<input type="submit" id="loginButton" className="buttons" value = "Do It" onClick={doLogin} />
 			<input type="submit" id="resetPassword" class="buttons" value = "Reset Password" onClick={resetPass} />
 			<input type="submit" id="resetPassword" class="buttons" value = "Register" onClick={register} />
 			</form>
