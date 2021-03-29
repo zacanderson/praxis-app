@@ -1,4 +1,4 @@
-/*
+
 require('express');
 require('mongodb');
 require('dotenv').config();
@@ -34,4 +34,4 @@ exports.setApp = function (app, client) {
 
 	});
 }
-*/
+
