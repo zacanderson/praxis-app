@@ -15,7 +15,7 @@ const sendVMail = async (userID, email) => {
 	const addAccessToken = new Verify({ UserID: userID, accessToken: hash });
 	addAccessToken.save();
 
-	const link = `${url}api/verification/email-auth/${userID}/${accessToken}`;
+	const link = `Link to verify email: ${url}api/verification/email-auth/${userID}/${accessToken}`;
 	
 	sendMail.createEmail(email, link);
 

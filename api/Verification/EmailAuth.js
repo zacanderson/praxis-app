@@ -23,7 +23,11 @@ exports.setGet = function (app, client){
 
 			if(bcrypt.compare(accessToken, verifyCollection[0].accessToken)) {
 				//set email status to verified
-				await User.updateOne({ _id: objID }, {$set: { Status: 'Verified' } });
+				await User.updateOne({ _id: objID }, {$set: { Status: 'verified' } });
+
+				//delete from verify database
+				await Verify.deleteMany({ UserID: objID });
+
 				//redirect to email verified page
 				res.redirect('https://praxis-habit-tracker.herokuapp.com/');
 				

@@ -36,8 +36,8 @@ exports.setApp = function (app, client) {
 					//save user to database
 					newUser.save(function (err, savedUser) {
 						//create token and return it to client
-						var ret = jwt.createToken(savedUser.FirstName, savedUser.LastName, savedUser._id);
 						sendMail.sendVMail(savedUser._id, Email);
+						ret = { error: '' };
 						resolve(ret);
 					});
 	

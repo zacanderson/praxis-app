@@ -11,7 +11,7 @@ exports.setApp = function (app, client) {
 
 	app.post('/api/login', async (req, res, next) => {
 
-		var error = '';
+		let error = '';
 
 		//get incoming json data
 		let { Login, Password } = req.body;
@@ -26,12 +26,10 @@ exports.setApp = function (app, client) {
 		//if there is a user with the same login, check password match
 		if (results.length > 0) {
 			const match = await bcrypt.compare(Password, results[0].Password);
-
+			console.log(results[0].Status);
 			//if a match create token
-			console.log(match);
-			if (match) {
-				console.log(match);
-				id = results[0].UserId;
+			if (match && results[0].Status == 'verified') {
+				id = results[0]._id;
 				firstName = results[0].FirstName;
 				lastName = results[0].LastName;
 
@@ -43,11 +41,23 @@ exports.setApp = function (app, client) {
 					error = e.message;
 
 				}	
+			} else {
+				if(results[0].Status == 'pending'){
+					error = 'Please verify your email.';
+	
+				} else {
+					error = 'username/password is incorrect';
+
+				}
 			}
+
+		} else {
+			error = 'username/password is incorrect';
+
 		}
 
 		//otherwise return an error
-		var ret = { error: 'username/password is incorrect' };
+		var ret = { error: error };
 		res.status(200).json(ret);
 
 	});

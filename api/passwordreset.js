@@ -20,8 +20,12 @@ exports.setApp = function (app, client) {
 
 		//if the verify list isnt open and the tokens match then change password
 		if(verifyList.length > 0 && bcrypt.compare(accessToken, verifyList[0].accessToken)) {
+			//change passwords and update 
 			const hash = await bcrypt.hash(Password, Number(process.env.SALT_ROUNDS));
 			await Users.updateOne({ _id: objID }, {$set: { Password: hash } });
+			
+			//delete from Verify collection
+			Verify.deleteMany({ UserID: UserID });
 
 		} else {
 			error = 'access error';

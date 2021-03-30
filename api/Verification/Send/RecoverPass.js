@@ -14,7 +14,7 @@ const sendRMail = async (userID, email) => {
 	const addAccessToken = new Verify({ UserID: userID, accessToken: hash });
 	addAccessToken.save();
 
-	const link = `${url}ResetPassword?id=${userID}&at=${accessToken}`;
+	const link = `Link to reset password: ${url}ResetPassword?id=${userID}&at=${accessToken}`;
 
 	mail.createEmail(email, link);
 }
