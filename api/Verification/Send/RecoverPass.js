@@ -7,7 +7,6 @@ const Verify = require('../../../models/Verification.js');
 const url = 'https://praxis-habit-tracker.herokuapp.com/'
 
 const sendRMail = async (userID, email) => {
-	console.log(email);
 	let accessToken = randomBytes(32).toString('hex');
 	const hash = await bcrypt.hash(accessToken, Number(process.env.SALT_ROUNDS));
 

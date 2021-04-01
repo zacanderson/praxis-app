@@ -26,7 +26,6 @@ exports.setApp = function (app, client) {
 		//if there is a user with the same login, check password match
 		if (results.length > 0) {
 			const match = await bcrypt.compare(Password, results[0].Password);
-			console.log(results[0].Status);
 			//if a match create token
 			if (match && results[0].Status == 'verified') {
 				id = results[0]._id;

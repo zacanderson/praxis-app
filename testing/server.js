@@ -22,17 +22,17 @@ mongoose.connect(url, {useNewUrlParser : true, useUnifiedTopology: true,  useCre
 	.catch(err => console.log(err));
 
 
-const endPoints = fs.readdirSync('./api').filter(file => file.endsWith('.js'));
+const endPoints = fs.readdirSync('.././api').filter(file => file.endsWith('.js'));
 for(const file of endPoints){
-	var api = require(`./api/${file}`);
+	var api = require(`.././api/${file}`);
 	api.setApp( app, mongoose );
 
 }
 
 //set up verification stuff
-const verifyEndPoints = fs.readdirSync('./api/Verification').filter(file => file.endsWith('.js'));
+const verifyEndPoints = fs.readdirSync('.././api/Verification').filter(file => file.endsWith('.js'));
 for(const file of verifyEndPoints){
-	var api = require(`./api/Verification/${file}`);
+	var api = require(`.././api/Verification/${file}`);
 	api.setGet( app, mongoose );
 
 }

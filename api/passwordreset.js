@@ -37,9 +37,6 @@ exports.setApp = function (app, client) {
 			
 		}
 		
-
-		
-
 		const ret = { error: error }; 
 
 		res.status(200).json(ret);

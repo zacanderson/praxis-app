@@ -8,7 +8,6 @@ exports.setApp = function (app, client) {
 		const userList = await Users.find({ Email: Email });
 
 		let error = '';
-		console.log(userList.length > 0);
 
 		if(userList.length > 0) {
 			if(userList[0].Status == 'verified') {

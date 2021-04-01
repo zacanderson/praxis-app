@@ -11,7 +11,6 @@ exports.setApp = function (app, client) {
 
 		if(userList.length > 0) {
 			//send reset password email
-			console.log(Email);
 			resetPass.sendRMail(userList[0]._id, Email);
 
 		}else{
