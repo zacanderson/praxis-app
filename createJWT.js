@@ -25,11 +25,11 @@ exports.createToken = function(fName, lName, id) {
 exports.refreshToken = function(token) {
 	var ud = jwt.decode(token, { complete: true });
 
-	var userID = ud.payload.id; 
+	var userID = ud.payload.userID; 
 	var firstName = ud.payload.firstName;
 	var lastName = ud.payload.lastName;
 
-	return createToken( firstName, lastName, userID);
+	return module.exports.createToken( firstName, lastName, userID);
 
 }
 
