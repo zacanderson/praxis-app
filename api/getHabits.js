@@ -34,6 +34,8 @@ exports.setApp = function (app, client) {
 
 	}
 
+	ret.error = error;
+	
 	//return response
 	res.status(200).json(ret);
 
