@@ -13,7 +13,7 @@ exports.setApp = function (app, client) {
     let error = "";
 	let ret = {};
 
-	const {accessToken, newOccurence, habitID} = req.body;
+	const {accessToken, newOccurence, habitID, description} = req.body;
 
 
 	if(jwt.isExpired(accessToken)){
@@ -25,7 +25,7 @@ exports.setApp = function (app, client) {
 		let userID = userData.payload.userID;
 
 		//update habit occurence
-		await Users.updateOne({ _id: ObjectId(userID), "Habits._id": ObjectId(habitID)}, { $set: { "Habits.$.Occurence": newOccurence } });
+		await Users.updateOne({ _id: ObjectId(userID), "Habits._id": ObjectId(habitID)}, { $set: { "Habits.$.Occurence": newOccurence, "Habits.$.Description": description } });
 		
 		//refresh and return token
 		ret = jwt.refreshToken(accessToken);
