@@ -1,6 +1,6 @@
 require("express");
 require("mongodb");
-const mongoose = require('mongoose');
+const ObjectId = require('mongodb').ObjectId;
 require("dotenv").config();
 
 const webT = require('jsonwebtoken');
@@ -26,8 +26,22 @@ exports.setApp = function (app, client) {
 		let userID = userData.payload.userID;
 
 		//get habits from database with search for habit name
-		const result = await Users.find({ _id: userID, "Habits.HabitName": { $regex: `.*${search}.*`, $options: 'i'}}, "Habits");
-
+		const result = await Users.aggregate([ 
+			{$unwind: '$Habits'}, 
+			{$match : { 
+				_id: ObjectId(userID), 
+				$or: [
+					{"Habits.HabitName": new RegExp(search, 'i')},
+					{"Habits.Description": new RegExp(search, 'i')}
+				]
+			}}, 
+			{$group: { _id: '$_id', Habits: {$push: '$Habits'}} },
+			{$project: {
+				_id: 0,
+				Habits: '$Habits'
+			}}
+		
+		]);
 		//refresh access token and add habits to response
 		ret = jwt.refreshToken(accessToken);
 		ret.Habits = result[0].Habits;
@@ -35,7 +49,7 @@ exports.setApp = function (app, client) {
 	}
 
 	ret.error = error;
-	
+
 	//return response
 	res.status(200).json(ret);
 
