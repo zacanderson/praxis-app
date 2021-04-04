@@ -7,6 +7,9 @@ import LoggedInPage from './pages/Dashboard';
 import ResetPassPage from './pages/ResetPass';
 import PassResetPage from './pages/PasswordReset';
 import RegisterPage from './pages/RegisterPage';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 function App() {
