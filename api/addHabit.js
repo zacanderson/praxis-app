@@ -14,17 +14,26 @@ exports.setApp = function (app, client)
 		var error = '';
 
 		//get habit name
-		const {habit, accessToken, userID} = req.body;	
-
+		const {habit,streakNum,descriptionofHabit,startTime, occurence, accessToken, userID} = req.body;	
 		if(jwt.isExpired(accessToken)){
 			error = 'Acess token has expired, log back in';
 		}else{
 				let userData = webT.decode(accessToken, { complete: true });
 				let userID = userData.payload.userID;
-				await Users.updateOne({ _id: ObjectId(userID) }, { $push: { Habits: habit} });
+				await Users.updateOne({ _id: ObjectId(userID) }, { $push: { Habits: { HabitName : habit, Streak : streakNum, Description : descriptionofHabit, Occurence : occurence, StartTime : startTime } } });
 				ret = jwt.refreshToken(accessToken);
 		}
-		ret.error = error;
+		try {
+			let userData = webT.decode(accessToken, { complete: true });
+			let userID = userData.payload.userID;
+			await Users.updateOne({ _id: ObjectId(userID) }, { $push: { Habits: { HabitName : habit, Streak : streakNum, Description : descriptionofHabit, Occurence : occurence, StartTime : startTime } } });
+			ret = jwt.refreshToken(accessToken);
+		} catch (e) {
+			error = e.message;
+			ret.error = error;
+
+		}	
+		
 		res.status(200).json(ret);
 
 	});
