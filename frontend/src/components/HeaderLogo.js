@@ -6,7 +6,7 @@ function HeaderLogo () {
 
 
     return (
-        <div className="container-fluid" style={{height:50, backgroundColor:"#797B84", marginBottom:100}}>
+        <div className="container-fluid border-bottom " style={{height:50, backgroundColor:"#797B84", marginBottom:100, border:"15px", borderColor:"blue"}}>
             <div className="row"></div>
         </div>
     )
