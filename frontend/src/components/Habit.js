@@ -7,14 +7,19 @@ import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-pro
 import { Checkmark } from 'react-checkmark';
 import EditButton from '../images/editButton.png'
 import UndoButton from '../images/undoButton.png'
+import Icon from '../images/weightlift.png'
+
 
 
 
 
 function Habit() {
 
+    // Create a state for the current percent of the progress bar. Initialized to zero
     const [percent, setPercent] = useState(0);
     const [hover, setHover] = useState(false);
+
+    // ask the user how much they want to do a habit to count as one check in 
     const amount = 2
     const progressStyle = {
 
@@ -25,7 +30,7 @@ function Habit() {
     return (
         <div className="container-fluid" style={{marginBottom:40}}>
 
-
+            {/* The progress bar takes the full width of the div */}
             <div 
                 style={{ width: 140, height: 140, padding:0 }}
                 className="row justify-content-center align-items-center my-row2 mx-auto"
@@ -33,7 +38,7 @@ function Habit() {
                 onMouseLeave={() => setHover(false)}
 
             >
-
+                {/* On click, the percent will change based on the  */}
                 <div onClick={() => percent < 100 ? setPercent(percent + 100 / amount) : setPercent(100)} style={{ cursor: "pointer" }} className="col">
                     <CircularProgressbarWithChildren
                         value={percent}
@@ -51,20 +56,20 @@ function Habit() {
 
                         {
                             percent === 100 ?
-                                <Checkmark size='95px' color='#DBABBE' /> : <img style={{ width: "50%", marginTop: -5 }} src="https://www.iconsdb.com/icons/preview/black/weightlift-xxl.png" alt="habit" />
+                                <Checkmark size='95px' color='#DBABBE' /> : <img style={{ width: "50%", marginTop: -5 }} src={Icon} alt="habit" />
 
                         }               </CircularProgressbarWithChildren>
                 </div>
                 </div>
                 
                     <div 
-                        className="row  justify-content-center align-items-start my-row2 mx-auto" style={{width:180, height: 20}}
+                        className="row  justify-content-center align-items-start my-row2 mx-auto" style={{width:140, height: 20}}
                         onMouseEnter={() => setHover(true)}
                         onMouseLeave={() => setHover(false)}>
 
-                        <div className="col-4 my-col d-flex justify-content-center"><img style={{ width: "70%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={EditButton} alt="habit" /></div>
+                        <div className="col-4 my-col d-flex justify-content-center"><img style={{ width: "100%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={EditButton} alt="habit" /></div>
                         <div className="col-4 my-col d-flex justify-content-center" style={{ fontFamily: 'Bungee', fontSize: 20 }}>Gym</div>
-                        <div className="col-4 my-col" onClick={() => percent > 0 ? setPercent(percent - 100 / amount) : setPercent(0)} ><img style={{ width: "75%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={UndoButton} alt="habit" /></div>
+                        <div className="col-4 my-col" onClick={() => percent > 0 ? setPercent(percent - 100 / amount) : setPercent(0)} ><img style={{ width: "100%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={UndoButton} alt="habit" /></div>
                     </div>
                 
             

@@ -13,7 +13,7 @@ const LoginPage = () => {
 		<div>
 			<HeaderLogo />
 			<Login  />
-			<HabitList />
+			
 
 		</div>
 
