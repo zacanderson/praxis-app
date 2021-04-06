@@ -26,7 +26,7 @@ function getNextDate(lastDate, occurence) {
 exports.setApp = function (app, client) {
   app.post("/api/checkIn", async (req, res, next) => {
     let error = "";
-	let ret = {};
+
 
 	const {accessToken, habitID, currDate} = req.body;
 
@@ -97,7 +97,8 @@ exports.setApp = function (app, client) {
 
 	}
 
-	
+	//refresh and return token
+	let ret = jwt.refreshToken(accessToken);
     ret.error = error;
 
 	//return response
