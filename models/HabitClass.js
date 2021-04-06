@@ -1,9 +1,12 @@
 class Habit {
-	constructor(HabitName, Description, Occurence, CurrentDate, HabitID) {
+	constructor(HabitName, Description, Occurence, CurrentDate, HabitID, TimesPerOccurence, Color, Icon) {
 		// User-defined parameters
 		this.HabitName = HabitName;
 		this.Description = Description;
 		this.Occurence = Occurence.toLowerCase();
+		this.TimesPerOccurence = TimesPerOccurence;
+		this.Color = Color;
+		this.Icon = Icon;
 
 		// when this class's constructor is called, 
 		// generate an ObjectID and pass it with the
@@ -31,6 +34,7 @@ class Habit {
 		this.LastCheckinDate = lastCheckIn;
 		this.CurrentStreak = 0;
 		this.LongestStreak = 0;
+		this.Progress = 0;
 
 		
 	}
