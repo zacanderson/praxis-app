@@ -13,7 +13,7 @@ exports.setApp = function (app, client) {
     let error = "";
 
 
-	const {accessToken, newOccurence, habitID, description} = req.body;
+	const {accessToken, newOccurence, habitID, description, timesPerOccurence, color, icon, progress } = req.body;
 
 
 	if(jwt.isExpired(accessToken)){
@@ -25,7 +25,16 @@ exports.setApp = function (app, client) {
 		let userID = userData.payload.userID;
 
 		// update habit occurence
-		await Users.updateOne({ _id: ObjectId(userID), "Habits._id": ObjectId(habitID)}, { $set: { "Habits.$.Occurence": newOccurence, "Habits.$.Description": description } });
+		await Users.updateOne({
+				 _id: ObjectId(userID), "Habits._id": ObjectId(habitID)
+				}, { $set: {
+					 	"Habits.$.Occurence": newOccurence, 
+					 	"Habits.$.Description": description,
+						"Habits.$.Color": color,
+						"Habits.$.TimesPerOccurence": timesPerOccurence,
+						"Habits.$.Progress": progress
+					} 
+				});
 		
 
 
