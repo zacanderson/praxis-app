@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/esm/Button';
-import RegisterModal from './RegisterModal';
+
 
 
 
@@ -116,6 +116,7 @@ function Login() {
 				<div className="row my-row justify-content-center align-items-center mx-auto">
 					<div className="col-4 col my-col">
 						<Button variant="secondary" onClick={doLogin} size="lg" block>Login</Button>
+						<span id="loginResult">{message}</span>
 					</div>
 
 
