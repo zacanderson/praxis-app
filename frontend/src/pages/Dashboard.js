@@ -5,6 +5,10 @@ import HeaderLogo from '../components/HeaderLogo';
 
 const LoggedInPage = () => {
 
+
+	let date = new Date();
+
+	console.log(date)
 	return (
 		<div>
 			<HeaderLogo />

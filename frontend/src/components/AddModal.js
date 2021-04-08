@@ -3,6 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Button';
 import IconsArr from './Icons';
+import axios from 'axios';
+
 
 
 //import axios from 'axios';
@@ -14,11 +16,105 @@ function AddModal(props) {
   const [color, setColor] = useState("");
   const [habitName, setHabitName] = useState('');
   const [desc, setDesc] = useState("");
-  const [occur, setOccur] = useState("");
-  const [amount, setAmount] = useState("");
+  const [occur, setOccur] = useState("Daily");
+  const [amount, setAmount] = useState("1");
   const [icon, setIcon] = useState(-1);
 
   const [showIcons, setShowIcons] = useState(true);
+  let date = new Date();
+
+
+  const bp = require('./bp.js');
+  const storage = require('../tokenStorage.js');
+  const jwt = require("jsonwebtoken");
+
+  var card = '';
+  var search = '';
+
+  const [message,setMessage] = useState('');
+  
+  
+
+  var tok = storage.retrieveToken();
+  var ud = jwt.decode(tok,{complete:true});
+
+//    var userId = ud.payload.id;
+  var userId = ud.payload.userId;
+  var firstName = ud.payload.firstName;
+  var lastName = ud.payload.lastName;
+
+  const addCard = async event => 
+  {
+    event.preventDefault();
+
+      var obj = {accessToken:tok, habitName:habitName, description:desc, occurence:occur, currentDate:date, color:color, icon:icon, timesPerOccurence:amount};
+
+
+      var js = JSON.stringify(obj);
+
+      try
+      {
+          // Axios code follows
+          var config = 
+          {
+              method: 'post',
+              url: bp.buildPath('api/addHabit'),        // or api/addcard or api/searchcards
+              headers: 
+              {
+                  'Content-Type': 'application/json'
+              },
+              data: js
+          };
+
+          axios(config)
+          .then(function (response) 
+          {
+              var res = response.data;
+              if (res.error) 
+              {
+                  setMessage(res.error);
+              }
+              else 
+              {
+                  if( res.error.length > 0 )
+                  {
+                      setMessage( "API Error:" + res.error );
+                  }
+                  else
+                  {
+                      setMessage('Habit has been added');
+                      setTimeout(() => {
+                        closeModal();
+                      }, 300);
+                  }
+              }
+          })
+          .catch(function (error) 
+          {
+              setMessage(error);
+          });
+
+      }
+      catch(e)
+      {
+          setMessage(e.message);
+      }
+
+
+      
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   const closeModal = async event => {
@@ -155,6 +251,8 @@ function AddModal(props) {
               </div>
             </div>
 
+                <div>{tok}</div>
+
           </Modal.Body>
 
 
@@ -164,7 +262,7 @@ function AddModal(props) {
 
         {showIcons ? <Button onClick={() => setShowIcons(false)} variant="secondary">Next</Button>
           : <Button onClick={() => setShowIcons(true)} variant="secondary">Prev</Button>}
-          {showIcons ? <></> : <Button onClick={closeModal} variant="secondary">Save</Button>}
+          {showIcons ? <></> : <Button onClick={addCard} variant="secondary">Save</Button>}
         <Button onClick={closeModal} variant="secondary">Cancel</Button>
       </Modal.Footer>
     </Modal>
