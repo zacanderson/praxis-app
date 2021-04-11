@@ -42,6 +42,8 @@ function Edit(props) {
 
 
     async function editHabit() {
+        
+        
         var date = new Date()
         console.log(color + " " + habitName + " " + desc + " " + occur + " " + amount + " " + icon)
 
@@ -59,7 +61,7 @@ function Edit(props) {
                 timesPerOccurence:amount, 
                 color:color, 
                 icon:props.Icon, 
-                percent:props.Progress.Percent,
+                percent:props.Percent,
                 currDate: date 
             })
         });
@@ -68,7 +70,14 @@ function Edit(props) {
         console.log(json);
 
         console.log("habit added")
-        props.Hide()
+        props.Refresh()
+
+        setTimeout(() => {
+            
+            props.Hide()
+        },5000)
+       
+       
     }
 
     async function deleteHabit() {

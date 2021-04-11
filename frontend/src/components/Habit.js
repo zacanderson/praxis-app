@@ -43,6 +43,9 @@ function Habit(props) {
 
         var date = new Date();
 
+
+        var daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+
         if (value === 1) {
             tempPercent = percent < 100 ? percent + 100 / props.TimesPerOccurence : 100;
         }
@@ -56,8 +59,8 @@ function Habit(props) {
             date = new Date(props.Progress.currDate)
 
         }
-        console.log(tempPercent)
-        console.log(date)
+        // console.log(tempPercent)
+        // console.log(date)
 
 
 
@@ -109,14 +112,15 @@ function Habit(props) {
                             else {
                                 var lastDate = new Date(null)
                                 console.log(props.HabitName + " has made progress");
-                                
+
 
                                 if (props.Checkins.length !== 0) {
-                                   
+
                                     lastDate = new Date(props.Checkins[props.Checkins.length - 1].Date)
                                 }
 
-                                console.log(lastDate.getDate())
+
+                                console.log((daysInMonth.getDate()))
                                 console.log(date.getDate())
 
 
@@ -124,6 +128,13 @@ function Habit(props) {
 
                                 if (props.Occurence === "daily" && tempPercent >= (100)
                                     && (lastDate.getDate() !== date.getDate())) { //|| lastDate.getMonth !== date.getMonth || lastDate.getFullYear() !== date.getFullYear())) {
+                                    console.log("HABIT COMPLETED - LOADING CHECKIN")
+                                    countCheckin();
+                                }
+
+                                
+                                if (props.Occurence === "weekly" && tempPercent >= (100)
+                                    && ((lastDate.getDate() + 7) % daysInMonth.getDate()  < date.getDate() ) || lastDate.getFullYear() !== date.getFullYear()) { //|| lastDate.getMonth !== date.getMonth || lastDate.getFullYear() !== date.getFullYear())) {
                                     console.log("HABIT COMPLETED - LOADING CHECKIN")
                                     countCheckin();
                                 }
@@ -388,163 +399,173 @@ function Habit(props) {
 
         } else {
             setConnections(connections + 1)
-            
+
 
         }
 
 
 
-        if (props.Occurence === "weekly" && (nextMon.getDate() < date.getDate() || pDate.getMonth() !== date.getMonth() || pDate.getFullYear() !== date.getFullYear())) {
+        if (props.Occurence === "weekly" && ((pDate.getDate() + 7) % daysInMonth.getDate() < date.getDate() || pDate.getMonth() !== date.getMonth() || pDate.getFullYear() !== date.getFullYear())) {
 
             setPercent(0);
 
+                
+        }
 
-
-
+        if (props.Occurence === "weekly" && ((lastDate.getDate() + 14) % daysInMonth.getDate() < date.getDate() || lastDate.getMonth() !== date.getMonth() || lastDate.getFullYear() !== date.getFullYear())) {
+        
+            resetStreak();
+        
+        
         }
 
 
 
 
+    
+
+
+
+
+}
+
+
+
+
+useEffect(() => {
+
+
+    changePercent()
+
+
+}, [])
+
+
+
+
+
+function resetStreak() {
+
+
+
+
+
+    var obj = {
+        accessToken: tok,
+        habitID: props._id
     }
 
 
+    var js = JSON.stringify(obj);
 
-
-    useEffect(() => {
-
-
-        changePercent()
-
-
-    },[])
-
-
-
-
-
-    function resetStreak() {
-
-
-
-
-
-        var obj = {
-            accessToken: tok,
-            habitID: props._id
-        }
-
-
-        var js = JSON.stringify(obj);
-
-        try {
-            console.log("IM IN HERE ")
-            // Axios code follows
-            var config =
+    try {
+        console.log("IM IN HERE ")
+        // Axios code follows
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/resetStreak'),        // or api/edit or api/searchcards
+            headers:
             {
-                method: 'post',
-                url: bp.buildPath('api/resetStreak'),        // or api/edit or api/searchcards
-                headers:
-                {
-                    'Content-Type': 'application/json'
-                },
-                data: js
-            };
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
 
-            axios(config)
-                .then(function (response) {
-                    var res = response.data;
-                    if (res.error) {
-                        setMessage(res.error);
+        axios(config)
+            .then(function (response) {
+                var res = response.data;
+                if (res.error) {
+                    setMessage(res.error);
+                }
+                else {
+                    if (res.error.length > 0) {
+                        setMessage("API Error:" + res.error);
                     }
                     else {
-                        if (res.error.length > 0) {
-                            setMessage("API Error:" + res.error);
-                        }
-                        else {
-                            console.log('STREAK RESET FOR: ' + props.HabitName);
+                        console.log('STREAK RESET FOR: ' + props.HabitName);
 
-                        }
                     }
-                })
-                .catch(function (error) {
-                    setMessage(error);
-                });
+                }
+            })
+            .catch(function (error) {
+                setMessage(error);
+            });
 
-        }
-        catch (e) {
-            setMessage(e.message);
-        }
     }
+    catch (e) {
+        setMessage(e.message);
+    }
+}
 
-    return (
-        <div className="container-fluid" style={{ marginBottom: 40 }}>
+return (
+    <div className="container-fluid" style={{ marginBottom: 40 }}>
 
-            {/* The progress bar takes the full width of the div */}
-            <div
-                style={{ width: 140, height: 140, padding: 0 }}
-                className="row justify-content-center align-items-center my-row2 mx-auto"
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
+        {/* The progress bar takes the full width of the div */}
+        <div
+            style={{ width: 140, height: 140, padding: 0 }}
+            className="row justify-content-center align-items-center my-row2 mx-auto"
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
 
-            >
-                {/* On click, the percent will change based on the  */}
-                <div onClick={countProgress} style={{ cursor: "pointer" }} className="col">
-                    <CircularProgressbarWithChildren
-                        value={percent}
-                        background="true"
-                        styles={buildStyles({
+        >
+            {/* On click, the percent will change based on the  */}
+            <div onClick={countProgress} style={{ cursor: "pointer" }} className="col">
+                <CircularProgressbarWithChildren
+                    value={percent}
+                    background="true"
+                    styles={buildStyles({
 
-                            pathColor: props.Color,
-                            textColor: '#f88',
-                            trailColor: '#d6d6d6',
-                            backgroundColor: '#ffffff',
+                        pathColor: props.Color,
+                        textColor: '#f88',
+                        trailColor: '#d6d6d6',
+                        backgroundColor: '#ffffff',
 
-                        })}
-                    >
-                        {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+                    })}
+                >
+                    {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
 
-                        {
-                            percent >= 100 ?
-                                <Checkmark size='95px' color={props.Color} /> : <img style={{ width: "50%", marginTop: -5 }} src={IconsArr[props.Icon]} alt="habit" />
+                    {
+                        percent >= 100 ?
+                            <Checkmark size='95px' color={props.Color} /> : <img style={{ width: "50%", marginTop: -5 }} src={IconsArr[props.Icon]} alt="habit" />
 
-                        }               </CircularProgressbarWithChildren>
-                </div>
+                    }               </CircularProgressbarWithChildren>
             </div>
-
-            <div
-                className="row  justify-content-center align-items-start my-row2 mx-auto" style={{ width: 140, height: 40 }}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}>
-
-                <div className="col-4 my-col d-flex justify-content-center"><img style={{ width: "100%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={EditButton} alt="habit" onClick={() => setModalShow(true)} /></div>
-                <div className="col-4 my-col d-flex justify-content-center" style={{ fontFamily: 'Bungee', fontSize: 15, padding: 0 }}>{props.HabitName}</div>
-                <div className="col-4 my-col" onClick={undoProgress} ><img style={{ width: "100%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={UndoButton} alt="habit" /></div>
-            </div>
-
-            <EditModal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                HabitName={props.HabitName}
-                Description={props.Description}
-                Occurence={props.Occurence}
-                TimesPerOccurence={props.TimesPerOccurence}
-                Color={props.Color}
-                Icon={props.Icon}
-                _id={props._id}
-                LastCheckinDate={props.LastCheckinDate}
-                CurrentStreak={props.CurrentStreak}
-                LongestStreak={props.LongestStreak}
-                Progress={props.Progress}
-                Checkins={props.Checkins}
-
-            />
-
         </div>
 
+        <div
+            className="row  justify-content-center align-items-start my-row2 mx-auto" style={{ width: 140, height: 40 }}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}>
+
+            <div className="col-4 my-col d-flex justify-content-center"><img style={{ width: "100%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={EditButton} alt="habit" onClick={() => setModalShow(true)} /></div>
+            <div className="col-4 my-col d-flex justify-content-center" style={{ fontFamily: 'Bungee', fontSize: 15, padding: 0 }}>{props.HabitName}</div>
+            <div className="col-4 my-col" onClick={undoProgress} ><img style={{ width: "100%", marginTop: 10, display: hover ? "block" : "none", cursor: "pointer" }} src={UndoButton} alt="habit" /></div>
+        </div>
+
+        <EditModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            HabitName={props.HabitName}
+            Description={props.Description}
+            Occurence={props.Occurence}
+            TimesPerOccurence={props.TimesPerOccurence}
+            Color={props.Color}
+            Icon={props.Icon}
+            _id={props._id}
+            LastCheckinDate={props.LastCheckinDate}
+            CurrentStreak={props.CurrentStreak}
+            LongestStreak={props.LongestStreak}
+            Progress={props.Progress}
+            Checkins={props.Checkins}
+
+        />
+
+    </div>
 
 
-    )
+
+)
 }
 
 export default Habit

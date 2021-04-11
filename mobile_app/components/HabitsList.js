@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Component } from 'react';
-import { StyleSheet, FlatList, Button, Image, View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { StyleSheet, FlatList,RefreshControl, Button, Image, View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import Modal from 'react-native-modal';
 import { Picker } from '@react-native-picker/picker';
 import Icons from './Icons'
 import Habit from './Habit'
+
+
 
 
 function HabitsList(props) {
@@ -12,6 +14,11 @@ function HabitsList(props) {
     const [connected, setConnected] = useState(false)
     const [results, setResults] = useState([])
     const [update, setUpdate] = useState(0)
+    const [refreshing, setRefreshing] = React.useState(false);
+
+
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout)); }
 
 
 
@@ -33,7 +40,7 @@ function HabitsList(props) {
         let json = await response.json();
         // console.log(json);
         setResults(json.Habits)
-        
+
 
         setConnected(true)
         console.log("SCREEN UPDATE")
@@ -41,28 +48,42 @@ function HabitsList(props) {
 
 
 
-    },[update])
+    }, [refreshing])
 
 
-    function doUpdate () {
-        setUpdate(update+1)
+    function doUpdate() {
+        setRefreshing(true);
+        wait(300).then(() => setRefreshing(false));
     }
 
-  
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(300).then(() => setRefreshing(false));
+      }, []);
+
 
 
 
     return (
 
-        <TouchableOpacity onPress={() => {setUpdate(update+1)}} activeOpacity={1.0}>
+      // <TouchableOpacity  activeOpacity={1.0}>
 
-        <ScrollView style={{marginBottom:15}}>
-            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            <ScrollView style={{ marginBottom: 0 }}
 
-               
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+
+            >
+                <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
 
 
-                {connected  && results.map((habitInfo, index) => (
+
+
+                    {connected && results.map((habitInfo, index) => (
                         <Habit
                             HabitName={habitInfo.HabitName}
                             Description={habitInfo.Description}
@@ -81,12 +102,13 @@ function HabitsList(props) {
                             key={index}
                             Token={props.Token}
                             Navigation={props.Navigation}
-                           
+                            Refresh={() => doUpdate()}
+
                         />
-                 
-                )
-                )}
-                {/* <Habit />
+
+                    )
+                    )}
+                    {/* <Habit />
                 <Habit />
                 <Habit />
                 <Habit />
@@ -100,10 +122,10 @@ function HabitsList(props) {
                 <Habit />
                 <Habit /> */}
 
-            </View>
-            
-        </ScrollView>
-        </TouchableOpacity>
+                </View>
+
+            </ScrollView>
+        //</TouchableOpacity>
 
 
     )
