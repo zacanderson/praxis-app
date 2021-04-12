@@ -9,11 +9,15 @@ import PassResetPage from './pages/PasswordReset';
 import RegisterPage from './pages/RegisterPage';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CalendarPage from './pages/CalendarPage'
+import HeaderLogo from './components/HeaderLogo'
 
 
 
 function App() {
 	return (
+		<div>
+		<HeaderLogo />
 		<Router>
 			<Switch>
 				<Route path="/" exact>
@@ -31,8 +35,12 @@ function App() {
 				<Route path="/Register" exact>
 					<RegisterPage />
 				</Route>
+				<Route path="/Calendar" exact>
+					<CalendarPage />
+				</Route>
 			</Switch>
 		</Router>
+		</div>
 	);
 }
 

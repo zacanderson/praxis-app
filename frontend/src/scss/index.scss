@@ -37,3 +37,81 @@
    // border: 3px dotted blue;
     //height: 80px;
 }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  //outline: black;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  //border: 1px solid black;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: black;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: black;
+  
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #797B84;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  margin-top: 43px;
+  font-size: 20px;
+  font-family: 'Bungee', sans-serif;
+  border-right: 3px solid #DBABBE
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+#navOption1, #navOption2, #navOption3, #navOption4 {
+  cursor:pointer
+}
+
+#navOption1:hover, #navOption2:hover, #navOption3:hover, #navOption4:hover {
+  color: white
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.closebtn:hover {
+  color:white;
+  cursor:pointer
+
+}
