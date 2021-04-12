@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { StyleSheet, Button, View, Text, TextInput, TouchableOpacity  } from 'react-native';
+import Modal from 'react-native-modal';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
@@ -12,12 +13,28 @@ var registerEmail = "";
 
 export default class LoginScreen extends Component 
 {
+  state = {
+    errorText: "Default Error Text",
+    errorVisible: false
+  }
     render() 
     {
-        return (
+      const toggleModal = () => {
+        this.setState({errorVisible: !this.state.errorVisible})
+      }
+      return (
         <View style={styles.container}>
+            <View>
+              <Modal testID={'modal'} isVisible={this.state.errorVisible}>
+                <View style={styles.errorBox}>
+                  <Text>{this.state.errorText}{"\n"}</Text>
+                  <Button onPress={toggleModal} title="Ok" />
+                </View>
+              </Modal>
+            </View>
+
             <Text style={styles.logo}>Praxis App</Text>
-    
+          
             <View style={styles.inputView} >
             <TextInput
                 style={styles.inputText}
@@ -64,7 +81,12 @@ export default class LoginScreen extends Component
     
             <TouchableOpacity style={styles.loginBtn}
             onPress = {
-                () => { Register(); this.props.navigation.navigate('RegisterConfirm', {test: 'test'}) }
+              async () => { 
+                        this.setState({errorText: await Register()});
+                        if (this.state.errorText != '')
+                          toggleModal();
+                        else
+                          this.props.navigation.navigate('RegisterConfirm', {test: registerUsername}) }
             }>
             <Text style={styles.loginText} >Register</Text>
             </TouchableOpacity>
@@ -97,11 +119,10 @@ async function Register()
       Email: registerEmail
     })
   });
-  let json = await response.json();
-  console.log(json);
 
-  // TODO: call verification api if register good
-  // TODO: redirect to confirmation page
+  let json = await response.json();
+  console.log(json.error);
+  return json.error;
 }
 
 
@@ -161,5 +182,17 @@ const styles = StyleSheet.create({
     },
     loginText:{
       color:"white"
-    }
+    },
+    errorBox: {
+      backgroundColor: 'white',
+      padding: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 4,
+      borderColor: 'rgba(0, 0, 0, 0.1)',
+    },
+    errorText: {
+      fontSize: 20,
+      marginBottom: 12,
+    },
   });
