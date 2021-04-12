@@ -28,7 +28,7 @@ exports.setApp = function (app, client) {
     let error = "";
 
 
-	const {accessToken, habitID, currDate} = req.body;
+	const {accessToken, habitID, currDate, streak, longestStreak} = req.body;
 
 	if(jwt.isExpired(accessToken)) {
 		error = 'Access token is expired, please login back in';
@@ -44,54 +44,10 @@ exports.setApp = function (app, client) {
 			error = 'No habit found with that id!';
 
 		} else {
-			// get and set all date informations
-			const lastCheckIn = new Date(habitInfo[0].Habits[0].LastCheckinDate);
-			const currentDate = new Date(currDate);
-			const nextValidCheckIn = getNextDate(lastCheckIn, habitInfo[0].Habits[0].Occurence)
-			
-			if(lastCheckIn.getDate() == currentDate.getDate() && lastCheckIn.getMonth() == currentDate.getMonth()){
-				error = 'You already checked in for today';
 
-			} else if (currentDate.getDate() < nextValidCheckIn.getDate() && currentDate.getMonth() == nextValidCheckIn.getMonth()){
-				error = 'Please wait until your next check in!';
+			const newCheckin = { Date: currDate, currStreak: streak, longestStreak: longestStreak };
 
-			} else if(currentDate.getDate() > nextValidCheckIn.getDate() && currentDate.getMonth() == nextValidCheckIn.getMonth()){
-				error = 'You broke your streak!';
-				//set currStreak to one and set lastcheckindate to the current date
-				await Users.updateOne({ _id: userID, "Habits._id": ObjectId(habitID)}, { $set: { "Habits.$.CurrentStreak": 1, "Habits.$.LastCheckinDate": currentDate }});
-
-			} else {
-				//increment streak counter and check to see if a new longest streak has been set
-				if(habitInfo[0].Habits[0].CurrentStreak + 1 > habitInfo[0].Habits[0].LongestStreak) {
-					await Users.updateOne({ 
-						_id: ObjectId(userID),
-						"Habits._id": ObjectId(habitID)
-					}, {
-						$set: {
-							"Habits.$.LastCheckinDate": currentDate,
-							"Habits.$.CurrentStreak": habitInfo[0].Habits[0].CurrentStreak + 1,
-							"Habits.$.LongestStreak": habitInfo[0].Habits[0].CurrentStreak + 1
-							
-						}, 
-					});
-
-				//if there hasnt been a new longest streak then increment current streak by one
-				}else {
-					await Users.updateOne({ 
-						_id: ObjectId(userID),
-						"Habits._id": ObjectId(habitID)
-					}, {
-						$inc: {
-							"Habits.$.CurrentStreak": 1,
-						},
-						$set: {
-							"Habits.$.LastCheckinDate": currentDate
-						}
-
-					});
-				}
-
-			}
+			await Users.updateOne({_id: ObjectId(userID), "Habits._id" :  ObjectId(habitID)}, { $push: {"Habits.$.Checkins": newCheckin }});
 
 		}
 

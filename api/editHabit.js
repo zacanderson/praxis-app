@@ -13,7 +13,7 @@ exports.setApp = function (app, client) {
     let error = "";
 
 
-	const {accessToken, newOccurence, habitID, description, timesPerOccurence, color, icon, progress } = req.body;
+	const {accessToken, newOccurence, habitID, description, timesPerOccurence, color, icon, percent, currDate } = req.body;
 
 
 	if(jwt.isExpired(accessToken)){
@@ -32,7 +32,9 @@ exports.setApp = function (app, client) {
 					 	"Habits.$.Description": description,
 						"Habits.$.Color": color,
 						"Habits.$.TimesPerOccurence": timesPerOccurence,
-						"Habits.$.Progress": progress
+						"Habits.$.Progress.Percent": percent,
+						"Habits.$.Progress.currDate": currDate
+
 					} 
 				});
 		
