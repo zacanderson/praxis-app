@@ -34,7 +34,8 @@ class Habit {
 		this.LastCheckinDate = lastCheckIn;
 		this.CurrentStreak = 0;
 		this.LongestStreak = 0;
-		this.Progress = 0;
+		this.Progress = { Percent: 0, currDate: CurrentDate };
+		this.Checkins = [];
 
 		
 	}
