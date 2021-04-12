@@ -3,8 +3,8 @@ import { StyleSheet, Button, View, Text, TextInput, TouchableOpacity  } from 're
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-var loginEmail = "";
-var loginPassword = "";
+var confirmationCode = "";
+
 
 export default class LoginScreen extends Component 
 {
@@ -12,64 +12,56 @@ export default class LoginScreen extends Component
     {
         return (
         <View style={styles.container}>
-            <Text style={styles.logo}>Praxis App</Text>
+            <Text style={styles.logo}>{this.props.route.params.test}</Text>
     
             <View style={styles.inputView} >
             <TextInput
                 style={styles.inputText}
-                placeholder="Email..."
+                placeholder="Please input your verification code here..."
                 placeholderTextColor="#003f5c"
-                onChangeText={text => loginEmail = text}/>
+                onChangeText={text => confirmationCode = text}/>
             </View>
-    
-            <View style={styles.inputView} >
-            <TextInput
-                secureTextEntry
-                style={styles.inputText}
-                placeholder="Password..."
-                placeholderTextColor="#003f5c"
-                onChangeText={text => loginPassword = text}/>
-            </View>
-    
+
             <TouchableOpacity style={styles.loginBtn}
-              onPress = {
-                () => this.login()
+            onPress = {
+                () => Confirm()
             }>
-            <Text style={styles.loginText}
-                onPress={() => Login()}>Login</Text>
+            <Text style={styles.loginText}>Verify Code</Text>
             </TouchableOpacity>
     
             <TouchableOpacity>
             <Text style={styles.loginText} 
-                onPress={() => this.props.navigation.navigate('Register')}
-                > Signup</Text>
+                onPress={() => this.props.navigation.goBack()}
+                > Go Back</Text>
             </TouchableOpacity>
-    
-            <TouchableOpacity>
-            <Text style={styles.forgot}>Forgot Password?</Text>
-            </TouchableOpacity>
-    
+
         </View>
         );
     }
 }
 
-async function Login() 
+
+async function Confirm(userId) 
 {
-  let response = await fetch('https://praxis-habit-tracker.herokuapp.com/api/login/', {
+  let response = await fetch('https://praxis-habit-tracker.herokuapp.com/api/verification/email-auth/' + userId + '/' + confirmationCode, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      Login: loginEmail,
-      Password: loginPassword
+      Login: confirmationCode
     })
   });
   let json = await response.json();
   console.log(json);
 }
+
+
+
+
+
+
 
 
 

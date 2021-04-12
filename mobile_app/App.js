@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './components/HomeScreen';
 import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
+import RegisterConfirmScreen from './components/RegisterConfirmScreen';
 
 var registerEmail = "";
 var registerPassword = "";
@@ -23,6 +24,7 @@ export default App = () => {
         <RootStack.Screen name="Home" component={HomeScreen} />
         <RootStack.Screen name="Login" component={LoginScreen} />
         <RootStack.Screen name="Register" component={RegisterScreen} />
+        <RootStack.Screen name="RegisterConfirm" component={RegisterConfirmScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

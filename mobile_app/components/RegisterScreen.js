@@ -64,7 +64,7 @@ export default class LoginScreen extends Component
     
             <TouchableOpacity style={styles.loginBtn}
             onPress = {
-                () => Register()
+                () => { Register(); this.props.navigation.navigate('RegisterConfirm', {test: 'test'}) }
             }>
             <Text style={styles.loginText} >Register</Text>
             </TouchableOpacity>
@@ -99,6 +99,9 @@ async function Register()
   });
   let json = await response.json();
   console.log(json);
+
+  // TODO: call verification api if register good
+  // TODO: redirect to confirmation page
 }
 
 
