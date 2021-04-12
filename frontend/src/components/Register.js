@@ -106,7 +106,7 @@ function Register() {
 				<div className="row my-row justify-content-center align-items-center mx-auto" >
 					<div className="col-md-8 col-sm-6 my-col">
 						<div className="form-group">
-							<input type="text" className="form-control" placeholder="Last Name " ref={(c) => fName = c} />
+							<input type="text" className="form-control" placeholder="Last Name " ref={(c) => lName = c} />
 
 
 						</div>
