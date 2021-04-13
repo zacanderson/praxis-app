@@ -8,6 +8,7 @@ import HomeScreen from './components/HomeScreen';
 import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
 import RegisterConfirmScreen from './components/RegisterConfirmScreen';
+import HabitScreen from './components/HabitScreen';
 
 var registerEmail = "";
 var registerPassword = "";
@@ -25,6 +26,7 @@ export default App = () => {
         <RootStack.Screen name="Login" component={LoginScreen} />
         <RootStack.Screen name="Register" component={RegisterScreen} />
         <RootStack.Screen name="RegisterConfirm" component={RegisterConfirmScreen} />
+        <RootStack.Screen name="Habit" component={HabitScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

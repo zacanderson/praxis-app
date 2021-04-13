@@ -33,7 +33,7 @@ export default class LoginScreen extends Component
     
             <TouchableOpacity style={styles.loginBtn}
               onPress = {
-                () => this.login()
+                () => { this.login(); this.props.navigation.navigate('Habit'); }
             }>
             <Text style={styles.loginText}
                 onPress={() => Login()}>Login</Text>
@@ -69,6 +69,7 @@ async function Login()
   });
   let json = await response.json();
   console.log(json);
+  // TODO: get key from login and pass to HabitScreen
 }
 
 

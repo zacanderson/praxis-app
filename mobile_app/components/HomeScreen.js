@@ -15,6 +15,7 @@ export default class Homescreen extends Component
         <Text>Welcome To Paraxis!</Text>
           <Button title="Login" onPress={() => this.props.navigation.navigate('Login')}/>
           <Button title="Register" onPress={() => this.props.navigation.navigate('Register')}/>
+          <Button title="Habit test" onPress={() => this.props.navigation.navigate('Habit')}/>
       </View>
     )
   }
