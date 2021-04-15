@@ -24,14 +24,14 @@ exports.setApp = function (app, client) {
 		let userID = userData.payload.userID;
 
 		//check database for habit
-		const habitInfo = await Users.find({ _id: ObjectId(userID), "Habits._id" :  ObjectId(habitID) });
-		console.log();
+		const habitInfo = await Users.find({ _id: ObjectId(userID), "Habits._id" :  ObjectId(habitID)}, { "Habits.$": 1 });
 		if(habitInfo.length == 0) {
 			error = 'No habit found with that id!';
 
 		} else {
-
-			const newCheckin = { Date: habitInfo[0].Habits[habitInfo[0].Habits.length - 1].Date, currStreak: 0, longestStreak: habitInfo[0].Habits[habitInfo[0].Habits.length - 1].longestStreak };
+			const checkinLength = habitInfo[0].Habits[0].Checkins.length;
+			const newCheckin = { Date: habitInfo[0].Habits[0].Checkins[checkinLength - 1].Date, currStreak: 0, longestStreak: habitInfo[0].Habits[0].Checkins[checkinLength - 1].longestStreak };
+			console.log(newCheckin);
 			await Users.updateOne({ _id: ObjectId(userID), "Habits._id": ObjectId(habitID)}, { $pop: {"Habits.$.Checkins": 1}})
 			await Users.updateOne({_id: ObjectId(userID), "Habits._id" :  ObjectId(habitID)}, { $push: {"Habits.$.Checkins": newCheckin }});
 
