@@ -185,6 +185,7 @@ function AddModal(props) {
               <option>weekly</option>
 
 
+
             </select>
 
             <br></br>
