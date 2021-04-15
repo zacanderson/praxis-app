@@ -1,8 +1,6 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, Button, View, Text, TextInput, TouchableOpacity  } from 'react-native';
 import Modal from 'react-native-modal';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 var registerUsername = "";
 var registerPassword = "";
@@ -17,88 +15,88 @@ export default class LoginScreen extends Component
     errorText: "Default Error Text",
     errorVisible: false
   }
-    render() 
-    {
-      const toggleModal = () => {
-        this.setState({errorVisible: !this.state.errorVisible})
-      }
-      return (
-        <View style={styles.container}>
-            <View>
-              <Modal testID={'modal'} isVisible={this.state.errorVisible}>
-                <View style={styles.errorBox}>
-                  <Text>{this.state.errorText}{"\n"}</Text>
-                  <Button onPress={toggleModal} title="Ok" />
-                </View>
-              </Modal>
-            </View>
+  render() 
+  {
+    const toggleModal = () => {
+      this.setState({errorVisible: !this.state.errorVisible})
+    }
+    return (
+      <View style={styles.container}>
+          <View>
+            <Modal testID={'modal'} isVisible={this.state.errorVisible}>
+              <View style={styles.errorBox}>
+                <Text>{this.state.errorText}{"\n"}</Text>
+                <Button onPress={toggleModal} title="Ok" />
+              </View>
+            </Modal>
+          </View>
 
-            <Text style={styles.logo}>Praxis App</Text>
-          
-            <View style={styles.inputView} >
-            <TextInput
-                style={styles.inputText}
-                placeholder="Username..."
-                placeholderTextColor="#003f5c"
-                onChangeText={text => registerUsername = text}/>
-            </View>
-    
-            <View style={styles.inputView} >
-            <TextInput
-                secureTextEntry
-                style={styles.inputText}
-                placeholder="Password..."
-                placeholderTextColor="#003f5c"
-                onChangeText={text => registerPassword = text}/>
-            </View>
+          <Text style={styles.logo}>Praxis App</Text>
+        
+          <View style={styles.inputView} >
+          <TextInput
+              style={styles.inputText}
+              placeholder="Username..."
+              placeholderTextColor="#003f5c"
+              onChangeText={text => registerUsername = text}/>
+          </View>
+  
+          <View style={styles.inputView} >
+          <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              placeholder="Password..."
+              placeholderTextColor="#003f5c"
+              onChangeText={text => registerPassword = text}/>
+          </View>
 
-            <View style={styles.inputView} >
-            <TextInput
-                secureTextEntry
-                style={styles.inputText}
-                placeholder="First Name..."
-                placeholderTextColor="#003f5c"
-                onChangeText={text => registerFirstName = text}/>
-            </View>
+          <View style={styles.inputView} >
+          <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              placeholder="First Name..."
+              placeholderTextColor="#003f5c"
+              onChangeText={text => registerFirstName = text}/>
+          </View>
 
-            <View style={styles.inputView} >
-            <TextInput
-                secureTextEntry
-                style={styles.inputText}
-                placeholder="Last Name..."
-                placeholderTextColor="#003f5c"
-                onChangeText={text => registerLastName = text}/>
-            </View>
+          <View style={styles.inputView} >
+          <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              placeholder="Last Name..."
+              placeholderTextColor="#003f5c"
+              onChangeText={text => registerLastName = text}/>
+          </View>
 
-            <View style={styles.inputView} >
-            <TextInput
-                secureTextEntry
-                style={styles.inputText}
-                placeholder="Email..."
-                placeholderTextColor="#003f5c"
-                onChangeText={text => registerEmail = text}/>
-            </View>
-    
-            <TouchableOpacity style={styles.loginBtn}
-            onPress = {
-              async () => { 
-                        this.setState({errorText: await Register()});
-                        if (this.state.errorText != '')
-                          toggleModal();
-                        else
-                          this.props.navigation.navigate('RegisterConfirm', {test: registerUsername}) }
-            }>
-            <Text style={styles.loginText} >Register</Text>
-            </TouchableOpacity>
-    
-            <TouchableOpacity>
-            <Text style={styles.loginText} 
-                onPress={() => this.props.navigation.goBack()}
-                > Go Back</Text>
-            </TouchableOpacity>
+          <View style={styles.inputView} >
+          <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              placeholder="Email..."
+              placeholderTextColor="#003f5c"
+              onChangeText={text => registerEmail = text}/>
+          </View>
+  
+          <TouchableOpacity style={styles.loginBtn}
+          onPress = {
+            async () => { 
+                      this.setState({errorText: await Register()});
+                      if (this.state.errorText != '')
+                        toggleModal();
+                      else
+                        this.props.navigation.navigate('RegisterConfirm', {test: registerUsername}) }
+          }>
+          <Text style={styles.loginText} >Register</Text>
+          </TouchableOpacity>
+  
+          <TouchableOpacity>
+          <Text style={styles.loginText} 
+              onPress={() => this.props.navigation.goBack()}
+              > Go Back</Text>
+          </TouchableOpacity>
 
-        </View>
-        );
+      </View>
+      );
     }
 }
 
