@@ -44,7 +44,14 @@ exports.setApp = function (app, client) {
 		]);
 		//refresh access token and add habits to response
 		ret = jwt.refreshToken(accessToken);
-		ret.Habits = result[0].Habits;
+		if(result.length > 0){
+			ret.Habits = result[0].Habits;
+
+		} else {
+			error = 'No habits found!';
+
+		}
+		
 
 	}
 
