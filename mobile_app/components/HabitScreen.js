@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, Button, View, Text, TextInput, TouchableOpacity  } from 'react-native';
 import Modal from 'react-native-modal';
-
+import * as Progress from 'react-native-progress';
 
 var isFocused = true;
 var habitName = '';
@@ -93,7 +93,29 @@ export default class LoginScreen extends Component
                   </View>
                   <View style={styles.habitBody}>
                     <Text>{item.Description}</Text>
-                    <Button style={{width: '10%'}} title="Home" onPress={() => this.props.navigation.navigate('Home')}/>
+                    <Progress.Bar progress={item.Progress.Percent} width={200} />
+                    <Button style={{width: '10%'}} title="Update" onPress={ async () => { 
+                      let response = await fetch('https://praxis-habit-tracker.herokuapp.com/api/editHabit/', {
+                        method: 'POST',
+                        headers: {
+                          Accept: 'application/json',
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                          accessToken: this.props.route.params.token,
+                          color: item.Color,
+                          currDate: new Date(),
+                          description: item.Description,
+                          habitID: item._id,
+                          icon: item.Color,
+                          newOccurence: 'daily',
+                          percent: (((item.TimesPerOccurence * (item.Progress.Percent / 100)) + 1) / item.TimesPerOccurence) * 100,
+                          timesPerOccurence: item.TimesPerOccurence
+                        })
+                        
+                      }); 
+                      let json = await response.json();
+                      console.log((((item.TimesPerOccurence * (item.Progress.Percent / 100)) + 1) / item.TimesPerOccurence) * 100);}}/>
                   </View>
                   
                 </View>
