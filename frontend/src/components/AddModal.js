@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Button';
@@ -16,9 +16,11 @@ function AddModal(props) {
   const [color, setColor] = useState("");
   const [habitName, setHabitName] = useState('');
   const [desc, setDesc] = useState("");
-  const [occur, setOccur] = useState("Daily");
-  const [amount, setAmount] = useState("1");
+  const [occur, setOccur] = useState("");
+  const [amount, setAmount] = useState("");
   const [icon, setIcon] = useState(-1);
+  const [enableNext, setEnableNext] = useState(true)
+  const [enableSave, setEnableSave] = useState(true)
 
   const [showIcons, setShowIcons] = useState(true);
   let date = new Date();
@@ -31,80 +33,86 @@ function AddModal(props) {
   var card = '';
   var search = '';
 
-  const [message,setMessage] = useState('');
-  
-  
+  const [message, setMessage] = useState('');
+
+
 
   var tok = storage.retrieveToken();
-  var ud = jwt.decode(tok,{complete:true});
+  var ud = jwt.decode(tok, { complete: true });
 
-//    var userId = ud.payload.id;
+  //    var userId = ud.payload.id;
   var userId = ud.payload.userId;
   var firstName = ud.payload.firstName;
   var lastName = ud.payload.lastName;
 
-  const addCard = async event => 
-  {
+  const addCard = async event => {
     event.preventDefault();
 
-      var obj = {accessToken:tok, habitName:habitName, description:desc, occurence:occur, currentDate:date, color:color, icon:icon, timesPerOccurence:amount};
+    var obj = { accessToken: tok, habitName: habitName, description: desc, occurence: occur, currentDate: date, color: color, icon: icon, timesPerOccurence: amount };
 
 
-      var js = JSON.stringify(obj);
+    var js = JSON.stringify(obj);
 
-      try
+    try {
+      // Axios code follows
+      var config =
       {
-          // Axios code follows
-          var config = 
-          {
-              method: 'post',
-              url: bp.buildPath('api/addHabit'),        // or api/addcard or api/searchcards
-              headers: 
-              {
-                  'Content-Type': 'application/json'
-              },
-              data: js
-          };
+        method: 'post',
+        url: bp.buildPath('api/addHabit'),        // or api/addcard or api/searchcards
+        headers:
+        {
+          'Content-Type': 'application/json'
+        },
+        data: js
+      };
 
-          axios(config)
-          .then(function (response) 
-          {
-              var res = response.data;
-              if (res.error) 
-              {
-                  setMessage(res.error);
-              }
-              else 
-              {
-                  if( res.error.length > 0 )
-                  {
-                      setMessage( "API Error:" + res.error );
-                  }
-                  else
-                  {
-                      setMessage('Habit has been added');
-                      setTimeout(() => {
-                        closeModal();
-                      }, 300);
-                  }
-              }
-          })
-          .catch(function (error) 
-          {
-              setMessage(error);
-          });
+      axios(config)
+        .then(function (response) {
+          var res = response.data;
+          if (res.error) {
+            setMessage(res.error);
+          }
+          else {
+            if (res.error.length > 0) {
+              setMessage("API Error:" + res.error);
+            }
+            else {
+              setMessage('Habit has been added');
+          
+              setTimeout(() => {
+                closeModal();
+              }, 300);
+            }
+          }
+        })
+        .catch(function (error) {
+          setMessage(error);
+        });
 
+    }
+    catch (e) {
+      setMessage(e.message);
+    }
+
+
+
+  };
+
+
+  useEffect(() => {
+
+    console.log(color)
+    if (color !== "" && habitName !== "" && desc !== "" && occur !== "" && amount !== "") {
+      setEnableNext(false)
+
+      if (icon !== -1) {
+        setEnableSave(false)
       }
-      catch(e)
-      {
-          setMessage(e.message);
-      }
+
+    }
 
 
-      
-};
-
-
+  })
 
 
 
@@ -126,6 +134,8 @@ function AddModal(props) {
     setIcon(-1);
 
     props.onHide();
+    setEnableNext(true)
+    setEnableSave(true)
 
 
     setTimeout(() => {
@@ -139,7 +149,7 @@ function AddModal(props) {
 
   return (
     <Modal
-    scrollable
+      scrollable
       backdrop='static'
       {...props}
       size="lg"
@@ -170,9 +180,10 @@ function AddModal(props) {
             <h8 style={{ fontFamily: 'Bungee', fontSize: 17 }}>Occurrence</h8>
 
             <select class="form-control" id="exampleFormControlSelect1" value={occur} onChange={(c) => setOccur(c.target.value)}>
-              <option>Daily</option>
-              <option>Weekly</option>
-              
+              <option hidden ></option>
+              <option>daily</option>
+              <option>weekly</option>
+
 
             </select>
 
@@ -181,6 +192,7 @@ function AddModal(props) {
             <h8 style={{ fontFamily: 'Bungee', fontSize: 17 }}>Times Per Occurrence</h8>
 
             <select class="form-control" id="exampleFormControlSelect1" value={amount} onChange={(c) => setAmount(c.target.value)}>
+              <option hidden ></option>
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -236,22 +248,22 @@ function AddModal(props) {
 
                 </div>
               </div>
-              <div className="row" style={{marginTop: 40}}>
-                
+              <div className="row" style={{ marginTop: 40 }}>
 
-               
-                 { IconsArr.map((eachIcon, index) => (
+
+
+                {IconsArr.map((eachIcon, index) => (
                   <div className="col-lg-2 col-sm-6">
-                  <div style={{ width: 100, height: 100, margin:"5%", padding:10 }}>
-                    <img style={{ width: "100%", marginTop: -5, borderRadius:10 ,border: icon === index ? "3px solid #EDBBB4" : "0px solid #EDBBB4"  }} src={eachIcon} alt="icon" key={index} onClick={() => setIcon(index)}/>
+                    <div style={{ width: 100, height: 100, margin: "5%", padding: 10 }}>
+                      <img style={{ width: "100%", marginTop: -5, borderRadius: 10, border: icon === index ? "3px solid #EDBBB4" : "0px solid #EDBBB4" }} src={eachIcon} alt="icon" key={index} onClick={() => setIcon(index)} />
+                    </div>
                   </div>
-                </div>
 
                 ))}
               </div>
             </div>
 
-                <div>{tok}</div>
+            <div>{tok}</div>
 
           </Modal.Body>
 
@@ -260,9 +272,9 @@ function AddModal(props) {
       }
       <Modal.Footer>
 
-        {showIcons ? <Button onClick={() => setShowIcons(false)} variant="secondary">Next</Button>
+        {showIcons ? <Button onClick={() => setShowIcons(false)} variant="secondary" disabled={enableNext}>Next</Button>
           : <Button onClick={() => setShowIcons(true)} variant="secondary">Prev</Button>}
-          {showIcons ? <></> : <Button onClick={addCard} variant="secondary">Save</Button>}
+        {showIcons ? <></> : <Button onClick={addCard} variant="secondary" disabled={enableSave}>Save</Button>}
         <Button onClick={closeModal} variant="secondary">Cancel</Button>
       </Modal.Footer>
     </Modal>

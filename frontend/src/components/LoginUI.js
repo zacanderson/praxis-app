@@ -40,7 +40,7 @@ function Login() {
 					var res = response.data;
 
 					if (res.error) {
-						setMessage('User/Password combination incorrect');
+						setMessage(res.error);
 
 					} else {
 						storage.storeToken(res);
