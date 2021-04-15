@@ -14,6 +14,8 @@ function HabitList() {
     const [message, setMessage] = useState('');
     const [connected, setConnected] = useState(false);
     const [resultsList, setResultsList] = useState("fsefwe");
+    const [rerend, setRerend] = useState(0);
+
 
     const bp = require('./bp.js');
     const storage = require('../tokenStorage.js');
@@ -69,7 +71,7 @@ function HabitList() {
 
                         setResultsList(_results);
                         setConnected(true);
-                        // console.log(_results)
+                        console.log(_results)
 
 
 
@@ -85,7 +87,7 @@ function HabitList() {
 
 
 
-                            
+
                             resultText += _results[i].HabitName;
                             if (i < _results.length - 1) {
                                 resultText += ', ';
@@ -119,12 +121,19 @@ function HabitList() {
 
 
 
-    });
+    }, [rerend]);
 
 
 
 
 
+    function doRerend() {
+        setTimeout(() => {
+
+            setRerend(rerend + 1)
+        }, 1000
+        )
+    }
 
 
 
@@ -134,14 +143,24 @@ function HabitList() {
 
 
     if (connected === false)
-        return (<div></div>)
+        return (<div className="container-fluid" style={{ marginTop: 100}} onClick={doRerend} >
+            <div className="row justify-content-start" style={{width:"100%"}}>
+            <div className="col" style={{width:"100%"}}>
+                        <AddButton />
+                    </div>
+            </div>
+        </div>)
     else
         return (
-            <div className="container" style={{ marginTop: 100 }} >
+            <div className="container" style={{ marginTop: 100 }} onClick={doRerend} >
                 <div className="row justify-content-start" style={{}}>
 
                     {resultsList.map(habitInfo => (
-                        <div className="col-md-3 col-sm-4 col-xs-6">
+
+
+
+
+                        <div className="col-md-3 col-sm-4 col-xs-6" onClick={doRerend} >
                             <Habit
                                 HabitName={habitInfo.HabitName}
                                 Description={habitInfo.Description}
@@ -154,6 +173,10 @@ function HabitList() {
                                 CurrentStreak={habitInfo.CurrentStreak}
                                 LongestStreak={habitInfo.LongestStreak}
                                 Progress={habitInfo.Progress}
+                                Checkins={habitInfo.Checkins}
+
+
+
                             />
                         </div>
                     )
@@ -161,7 +184,7 @@ function HabitList() {
 
 
 
-                    <div className="col-md-3 col-sm-4 col-xs-6">
+                    <div className="col-md-3 col-sm-4 col-xs-6" style={{width: 500}}>
                         <AddButton />
                     </div>
                     {/* <div className="col-md-3 col-sm-4 col-xs-6">

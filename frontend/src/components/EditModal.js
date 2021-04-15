@@ -19,6 +19,9 @@ function EditModal(props) {
   const [occur, setOccur] = useState(props.Occurence);
   const [amount, setAmount] = useState(props.TimesPerOccurence);
   const [icon, setIcon] = useState(-1);
+  const[streak, setStreak] = useState(0)
+  const[lstreak, setLStreak] = useState(0)
+
 
   const [showIcons, setShowIcons] = useState(true);
   let date = new Date();
@@ -47,6 +50,7 @@ function EditModal(props) {
   const editHabit = async event => 
   {
     event.preventDefault();
+    date = new Date();
 
        
     var obj = {
@@ -57,7 +61,11 @@ function EditModal(props) {
           timesPerOccurence:amount, 
           color:color, 
           icon:props.Icon, 
-          progress:props.Progress }
+          percent:props.Progress.Percent,
+          currDate: date 
+        
+      
+          }
 
 
       var js = JSON.stringify(obj);
@@ -182,7 +190,18 @@ const deleteHabit = async event =>
       
 };
 
+useEffect(() => {
 
+  if (props.Checkins.length !== 0) {
+     setStreak(props.Checkins[props.Checkins.length - 1].currStreak)
+     setLStreak(props.Checkins[props.Checkins.length - 1].longestStreak)
+
+  }
+  else {
+    setStreak(0)
+    setLStreak(0)
+  }
+},[props.Checkins.length])
 
 
 
@@ -233,6 +252,7 @@ const deleteHabit = async event =>
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+     
     >
       <Modal.Header>
         
@@ -297,13 +317,13 @@ const deleteHabit = async event =>
             
 
             { !editMode && <h8 style={{ fontFamily: 'Bungee', fontSize: 17 }}>Streak</h8>}
-            {!editMode && <p><strong>{props.CurrentStreak}</strong></p>}
+            {!editMode && <p><strong>{streak}</strong></p>}
             <br></br>
             
             { !editMode && <h8 style={{ fontFamily: 'Bungee', fontSize: 17 }}>Longest Streak</h8>}
             
      
-            {!editMode && <p><strong>{props.LongestStreak}</strong></p>}
+            {!editMode && <p><strong>{lstreak}</strong></p>}
             
 
            { editMode && <h8 style={{ fontFamily: 'Bungee', fontSize: 17 }}>Choose A Color</h8>}
