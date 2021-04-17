@@ -12,7 +12,7 @@ export default class AddScreen extends Component
   render() 
   {
     return (
-      <AddInfo></AddInfo>
+      <AddInfo Token={this.props.route.params.token}></AddInfo>
     )
   }
 }

@@ -24,17 +24,18 @@ function Habits(props) {
 
     }
 
-     async function editHabit(value) {
+    async function editHabit(value) {
 
         var tempPercent
         var date = new Date();
 
         if (value === 1) {
-            tempPercent = percent //< 100 ? percent + 100 / props.TimesPerOccurence : 100;
+            tempPercent = percent < 100 ? percent + 100 / props.TimesPerOccurence : 100;
             console.log(tempPercent)
+            console.log(props)
         }
         else if (value === 2) {
-            tempPercent = percent //> 0 ? percent - 100 / props.TimesPerOccurence : 0;
+            tempPercent = percent > 0 ? (percent - 100 / props.TimesPerOccurence - 100 / props.TimesPerOccurence) : 0;
 
         }
         else if (value === 3) {
@@ -60,14 +61,79 @@ function Habits(props) {
                 icon: props.Icon,
                 newOccurence: props.Occurence,
                 percent: tempPercent,
-                timesPerOccurence: props.TimesPerOccurence
+                timesPerOccurence: parseInt(props.TimesPerOccurence)
             })
 
         });
         let json = await response.json();
 
+        var lastDate = new Date(null)
+        console.log(props.HabitName + " has made progress");
+
+
+        if (props.Checkins.length !== 0) {
+            lastDate = new Date(props.Checkins[props.Checkins.length - 1].Date)
+        }
+
+
+
+        if (props.Occurence === "daily" && tempPercent >= (100)
+            && (lastDate.getDate() !== date.getDate())) { //|| lastDate.getMonth !== date.getMonth || lastDate.getFullYear() !== date.getFullYear())) {
+            console.log("HABIT COMPLETED - LOADING CHECKIN")
+            countCheckin();
+        }
+
         console.log("CONNECTED")
     }
+
+
+     async function countCheckin() {
+        var date = new Date()
+        console.log(date)
+
+        var streak = 0;
+        var lStreak = 0;
+
+
+        if (props.Checkins.length !== 0) {
+            streak = props.Checkins[props.Checkins.length - 1].currStreak;
+            lStreak = props.Checkins[props.Checkins.length - 1].longestStreak;
+
+
+
+        }
+
+        streak = streak + 1
+
+        if (streak > lStreak)
+            lStreak = streak;
+
+
+      
+
+
+        //var js = JSON.stringify(obj);
+
+        let response = await fetch('https://praxis-habit-tracker.herokuapp.com/api/checkIn/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accessToken: props.Token,
+                habitID: props._id,
+                description: props.Description,
+                currDate: date,
+                streak: streak,
+                longestStreak: lStreak
+            })
+
+        });
+        let json = await response.json();
+
+    };
+
 
 
 

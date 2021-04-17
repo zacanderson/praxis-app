@@ -9,7 +9,7 @@ import * as Progress from 'react-native-progress';
 
 
 
-function AddInfo() {
+function AddInfo(props) {
     const [selectedLanguage, setSelectedLanguage] = useState();
 
     const [color, setColor] = useState("#EDBBB4");
@@ -31,6 +31,31 @@ function AddInfo() {
     
     
       })
+
+
+      async function addHabit() {
+          date = new Date()
+        let response = await fetch('https://praxis-habit-tracker.herokuapp.com/api/addHabit/', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            accessToken: props.Token,
+            habitName: habitName,
+            description: desc,
+            occurence: occur,
+            currentDate:date ,
+            timesPerOccurence: parseInt(amount),
+            color: color,
+            icon: icon
+          })
+        });
+  
+        let json = await response.json();
+        console.log(json);
+      }
 
 
     
@@ -252,7 +277,8 @@ function AddInfo() {
                     <Text style={styles.loginText}>Save</Text>
                 </TouchableOpacity> :
 
-                <TouchableOpacity style={styles.loginBtn2}>
+               
+                <TouchableOpacity style={styles.loginBtn2} onPress={addHabit}>
                     <Text style={styles.loginText}>Save</Text>
                 </TouchableOpacity>
 

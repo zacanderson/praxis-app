@@ -56,7 +56,7 @@ function HabitsList(props) {
                             HabitName={habitInfo.HabitName}
                             Description={habitInfo.Description}
                             Occurence={habitInfo.Occurence}
-                            TimesPerOccurence={habitInfo.TimesPerOccurence}
+                            TimesPerOccurence={parseInt(habitInfo.TimesPerOccurence)}
                             Color={habitInfo.Color}
                             Icon={habitInfo.Icon}
                             _id={habitInfo._id}
@@ -68,6 +68,7 @@ function HabitsList(props) {
                             Date={habitInfo.Progress.currDate}
                             Checkins={habitInfo.Checkins}
                             key={index}
+                            Token={props.Token}
                         />
                  
                 )

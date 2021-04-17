@@ -112,8 +112,13 @@ function Habit(props) {
                                 
 
                                 if (props.Checkins.length !== 0) {
+                                   
                                     lastDate = new Date(props.Checkins[props.Checkins.length - 1].Date)
                                 }
+
+                                console.log(lastDate.getDate())
+                                console.log(date.getDate())
+
 
 
 
@@ -412,7 +417,7 @@ function Habit(props) {
         changePercent()
 
 
-    },[connections])
+    },[])
 
 
 
