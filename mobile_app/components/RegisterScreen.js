@@ -31,7 +31,7 @@ export default class LoginScreen extends Component
             </Modal>
           </View>
 
-          <Text style={styles.logo}>Praxis App</Text>
+          <Text style={{fontFamily: "Bungee-Regular", fontSize:25, color:"black", marginBottom:40 }}>Register to Get Started!</Text>
         
           <View style={styles.inputView} >
           <TextInput
@@ -140,20 +140,22 @@ async function Register()
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#80cced',
+      backgroundColor: '#BAA1A7',
       alignItems: 'center',
       justifyContent: 'center',
     },
     logo:{
+      fontFamily: "Bungee-Regular",
       fontWeight:"bold",
-      fontSize:50,
-      color:"#fb5b5a",
+      fontSize:30,
+      color:"black",
       marginBottom:40
+      
     },
     inputView:{
       width:"80%",
-      backgroundColor:"#465881",
-      borderRadius:25,
+      backgroundColor:"#fff",
+      borderRadius:11,
       height:50,
       marginBottom:20,
       justifyContent:"center",
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
     },
     inputText:{
       height:50,
-      color:"white"
+      color:"black"
     },
     forgot:{
       color:"white",
@@ -170,8 +172,8 @@ const styles = StyleSheet.create({
     },
     loginBtn:{
       width:"80%",
-      backgroundColor:"#fb5b5a",
-      borderRadius:25,
+      backgroundColor:"#797B84",
+      borderRadius:11,
       height:50,
       alignItems:"center",
       justifyContent:"center",

@@ -126,7 +126,7 @@ export default class LoginScreen extends Component
           <View style={styles.bottomBar}>
             <Button style={styles.bottomBarButton} title="Home" onPress={() => this.props.navigation.navigate('Home')}/>
             <Button style={styles.bottomBarButton} title="Profile???" onPress={() => this.props.navigation.navigate('Habit')}/>
-            <Button style={styles.bottomBarButton} title="Add Habit" onPress={() => toggleModal()}/>
+            <Button style={styles.bottomBarButton} title="Add Habit"  onPress={() => this.props.navigation.navigate('Dashboard', { token: this.props.route.params.token } )}/>
       
           </View>
         </View>
