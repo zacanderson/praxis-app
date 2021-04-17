@@ -24,6 +24,11 @@ const LoggedInPage = () => {
 		window.location.href = '/Calendar';
 	}
 
+	const goStats = async event => {
+		event.preventDefault();
+		window.location.href = '/Stats';
+	}
+
 
 	console.log(date)
 	return (
@@ -54,8 +59,8 @@ const LoggedInPage = () => {
 				</div>
 
 				<div className="row justify-content-around align-items-center">
-					<div className="col-6 " style={{ border: "10px solid #BAA1A7 ", borderRadius: 100, padding: 30, marginLeft: 0 }}>
-						<BarChart />
+					<div className="col-6 " style={{ border: "10px solid #BAA1A7 ", borderRadius: 100, padding: 30, marginLeft: 0, cursor:"pointer" }}  onClick={goStats}>
+						<BarChart/>
 					</div>
 					<div className="col-md-6" align="center" style={{ textAlignment: "center" }}>
 						<div style={{ width: "70%", height: "100%" }}>

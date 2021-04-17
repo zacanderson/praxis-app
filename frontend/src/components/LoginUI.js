@@ -148,7 +148,7 @@ function Login() {
 				</div>
 				<div className="row my-row justify-content-center align-items-end mx-auto" style={{ height: 70 }} >
 					<div className="col-md-6 col-sm-6 my-col">
-						<h6 className="text-center" onClick={register}><a>New User? Register Here</a></h6>
+						<h6 className="text-center" onClick={register} style={{cursor: "pointer"}}><a>New User? Register Here</a></h6>
 					</div>
 
 					{/* <RegisterModal
@@ -159,7 +159,7 @@ function Login() {
 				</div>
 				<div className="row my-row justify-content-center align-items-start mx-auto" >
 					<div className="col-md-6 col-sm-6 my-col">
-						<h6 className="text-center" onClick={resetPass}><a>Need Help? Click Here</a></h6>
+						<h6 className="text-center" onClick={resetPass} style={{cursor: "pointer"}}><a>Need Help? Click Here</a></h6>
 					</div>
 
 				</div>

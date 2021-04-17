@@ -76,7 +76,7 @@ function HeaderLogo() {
         </div>
         <div style={{ borderTop: "2px solid black ", marginLeft: "0%", marginRight: "0%" }}></div>
 
-        <div style={{ height: 40, textAlign: "center" }} id="navOption4">
+        <div style={{ height: 40, textAlign: "center" }} onClick={goStats} id="navOption4">
           <h5 style={{ marginTop: 11 }}>Statistics</h5>
         </div>
         <div style={{ borderTop: "2px solid black ", marginLeft: "0%", marginRight: "0%" }}></div>

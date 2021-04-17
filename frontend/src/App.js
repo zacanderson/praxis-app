@@ -12,6 +12,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CalendarPage from './pages/CalendarPage'
 import HeaderLogo from './components/HeaderLogo'
 import HabitsPage from './pages/HabitsPage'
+import StatsPage from './pages/StatsPage'
+
+
 
 
 
@@ -45,6 +48,9 @@ function App() {
 			<Switch>
 				<Route path="/" exact>
 					<LoginPage />
+				</Route>
+				<Route path="/Stats" exact>
+					<StatsPage />
 				</Route>
 				<Route path="/Habits" exact>
 					<HabitsPage />

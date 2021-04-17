@@ -66,6 +66,11 @@ function Register() {
 		window.location.href = '/';
 	}
 
+	const resetPass = async event => {
+		event.preventDefault();
+		window.location.href = '/SendReset';
+	}
+
 	return (
 		<div id="loginDiv" style={{margin: "auto", padding: 10, marginTop:"3%"}}>
 			{/* <form onSubmit={doRegister}>
@@ -152,7 +157,7 @@ function Register() {
 				</div>
 				<div className="row my-row justify-content-center align-items-end mx-auto" style={{ height: 70 }} >
 					<div className="col-md-6 col-sm-6 my-col">
-						<h6 className="text-center" onClick={login}><a>Have an Account? Login Here</a></h6>
+						<h6 className="text-center" onClick={login} style={{cursor: "pointer"}}><a>Have an Account? Login Here</a></h6>
 					</div>
 
 					
@@ -160,7 +165,7 @@ function Register() {
 				</div>
 				<div className="row my-row justify-content-center align-items-start mx-auto" style={{ height: 40 }} >
 					<div className="col-md-6 col-sm-6 my-col">
-						<h6 className="text-center" onClick={login}><a>Need Help? Click Here</a></h6>
+						<h6 className="text-center" onClick={resetPass} style={{cursor: "pointer"}}><a>Need Help? Click Here</a></h6>
 					</div>
 
 				</div>
