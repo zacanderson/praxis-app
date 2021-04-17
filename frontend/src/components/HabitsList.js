@@ -10,6 +10,7 @@ function HabitList() {
     var whatever;
     var _results;
     var resultText = '';
+    var doReset = []
 
     const [message, setMessage] = useState('');
     const [connected, setConnected] = useState(false);
@@ -20,23 +21,31 @@ function HabitList() {
     const bp = require('./bp.js');
     const storage = require('../tokenStorage.js');
     const jwt = require("jsonwebtoken");
+    
+
 
 
     var tok = storage.retrieveToken();
     var ud = jwt.decode(tok, { complete: true });
 
     //    var userId = ud.payload.id;
-    var userId = ud.payload.userId;
-    var firstName = ud.payload.firstName;
-    var lastName = ud.payload.lastName;
+    //var userId = ud.payload.userId;
+    //var firstName = ud.payload.firstName;
+    //var lastName = ud.payload.lastName;
 
-
+    
+    
     useEffect(() => {
+
 
 
 
         var obj = { accessToken: tok, search: "" };
         var js = JSON.stringify(obj);
+        
+
+
+       
 
 
 
@@ -61,8 +70,15 @@ function HabitList() {
                 .then(function (response) {
 
                     var res = response.data;
+
                     if (res.error) {
-                        setMessage(res.error);
+                        console.log(res.error);
+                        setConnected(false);
+                        if (res.error === 'Acess token has expired, log back in')
+                             window.location.href = '/';
+
+
+
 
                     }
                     else {
@@ -82,21 +98,61 @@ function HabitList() {
 
 
 
-                        for (var i = 0; i < _results.length; i++) {
+                        // for (var i = 0; i < _results.length; i++) {
+                        //     //console.log("IM HERE")
+                        //     var pDate = new Date (_results[i].Progress.currDate)
+                        //     var date = new Date();
+                        //     console.log(date)
+
+
+
+                        //     if (_results[i].Occurence === "daily" && (pDate.getDate() !== date.getDate() || pDate.getMonth() !== date.getMonth() || pDate.getFullYear() !== date.getFullYear())) {
+
+                        //        // if (pDate.getFullYear() > 2010) {
+                        //            doReset.push(true)
+                    
+                        //             console.log("PROGRESS BACK TO ZERO :  " + _results[i].HabitName)
+                    
+                        //             // if (connections > 3)
+                        //             //     editHabit(3)
+                        //        // }
+                    
+                    
+                        //         // if ((lastDate.getDate() + 1) % daysInMonth.getDate() < date.getDate()) {
+                    
+                        //         //     //onsole.log(lastDate.getDate() + 1)
+                        //         //     //console.log(daysInMonth.getDate())
+                        //         //     // console.log(date.getDate())
+                    
+                        //         //     console.log("STREAK WOULD RESET FOR THIS HABIT:  " + props.HabitName)
+                    
+                        //         //     if (lastDate.getFullYear() === date.getFullYear())
+                        //         //         resetStreak();
+                        //         // }
+                    
+                    
+                        //     }
+                        //     else {
+                        //         doReset.push(false)
+                               
+                        //     }
 
 
 
 
 
-                            resultText += _results[i].HabitName;
-                            if (i < _results.length - 1) {
-                                resultText += ', ';
+                            // console.log(_results[0].Occurence)
+                            // console.log(doReset)
 
-                            }
+
+                            
                             //console.log(resultText)
 
 
-                        }
+                      //  }
+                        
+                        doReset.push(false)
+                        
 
 
 
@@ -106,7 +162,11 @@ function HabitList() {
                     }
                 })
                 .catch(function (error) {
-                    setMessage(error);
+                    console.log(error);
+                    if (error === 'Acess token has expired, log back in')
+                             window.location.href = '/';
+                    setConnected(false);
+
 
                 });
 
@@ -155,12 +215,12 @@ function HabitList() {
             <div className="container" style={{ marginTop: 100 }} onClick={doRerend} >
                 <div className="row justify-content-start" style={{}}>
 
-                    {resultsList.map(habitInfo => (
+                    {resultsList.map((habitInfo, index) => (
 
 
 
 
-                        <div className="col-md-3 col-sm-4 col-xs-6" onClick={doRerend} >
+                        <div className="col-md-3 col-sm-4 col-xs-6" onClick={doRerend} key={index} >
                             <Habit
                                 HabitName={habitInfo.HabitName}
                                 Description={habitInfo.Description}
@@ -173,6 +233,8 @@ function HabitList() {
                                 CurrentStreak={habitInfo.CurrentStreak}
                                 LongestStreak={habitInfo.LongestStreak}
                                 Progress={habitInfo.Progress}
+                                Percent={habitInfo.Progress.Percent}
+                                Date={habitInfo.Progress.currDate}
                                 Checkins={habitInfo.Checkins}
 
 

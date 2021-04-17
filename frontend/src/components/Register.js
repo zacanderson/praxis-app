@@ -67,7 +67,7 @@ function Register() {
 	}
 
 	return (
-		<div id="loginDiv">
+		<div id="loginDiv" style={{margin: "auto", padding: 10, marginTop:"3%"}}>
 			{/* <form onSubmit={doRegister}>
 				<span id="inner-title">PLEASE REGISTER</span><br />
 				<input type="text" id="firstName" placeholder="First Name" ref={(c) => fName = c} /><br />
@@ -89,7 +89,7 @@ function Register() {
 
 				<div className="row my-row justify-content-center align-items-center mx-auto" style={{ height: 160 }} >
 					<div className="col-md-6 col-sm-6 my-col">
-						<h4 className="text-center">Register to Get Started!</h4>
+						<h4 className="text-center" style={{ fontFamily: 'Bungee', fontSize: 25 }}>Register to Get Started!</h4>
 					</div>
 				</div>
 				

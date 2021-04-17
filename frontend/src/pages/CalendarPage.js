@@ -190,7 +190,8 @@ else
         <div style={{ height: 300, width: "90%", textAlign: "center", fontSize: 30, fontFamily: "'Bungee', sans-serif" }}>
           <h2>{months[d.getMonth()]}</h2>
           <Calendar 
-            HabitName =  {connected ? resultsList[index].HabitName : ""}/>
+            HabitName =  {connected ? resultsList[index].HabitName : ""}
+            Checkins =  {connected ? resultsList[index].Checkins : ""}/>
         </div>
       </div>
     </div>

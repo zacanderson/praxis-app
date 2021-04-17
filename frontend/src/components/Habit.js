@@ -18,10 +18,13 @@ import EditModal from "./EditModal"
 function Habit(props) {
 
     // Create a state for the current percent of the progress bar. Initialized to zero
-    const [percent, setPercent] = useState(props.Progress.Percent);
+    const [percent, setPercent] = useState(props.Percent);
     const [hover, setHover] = useState(false);
     const [modalShow, setModalShow] = React.useState(false);
     const [message, setMessage] = useState("");
+    const [connections, setConnections] = useState(0);
+
+
 
     const bp = require('./bp.js');
     const storage = require('../tokenStorage.js');
@@ -33,24 +36,29 @@ function Habit(props) {
 
     function editHabit(value) {
         //event.preventDefault();
-        var date = new Date();
+
         var tempPercent
         // percent < 100 ? setPercent(percent + 100 / props.TimesPerOccurence) : setPercent(100);
 
 
+        var date = new Date();
 
         if (value === 1) {
             tempPercent = percent < 100 ? percent + 100 / props.TimesPerOccurence : 100;
         }
-        else if(value === 2) {
+        else if (value === 2) {
             tempPercent = percent > 0 ? percent - 100 / props.TimesPerOccurence : 0;
 
         }
         else if (value === 3) {
-            tempPercent= 0
+            tempPercent = 0
+            setPercent(0)
+            date = new Date(props.Progress.currDate)
 
         }
         console.log(tempPercent)
+        console.log(date)
+
 
 
         // console.log(percent);
@@ -101,6 +109,7 @@ function Habit(props) {
                             else {
                                 var lastDate = new Date(null)
                                 console.log(props.HabitName + " has made progress");
+                                
 
                                 if (props.Checkins.length !== 0) {
                                     lastDate = new Date(props.Checkins[props.Checkins.length - 1].Date)
@@ -342,49 +351,49 @@ function Habit(props) {
             lastDate = new Date(props.Checkins[props.Checkins.length - 1].Date)
         }
 
-        console.log(lastDate.getDate() )
+        //console.log(lastDate.getDate() )
 
         var nextMon = new Date();
         nextMon.setDate(nextMon.getDate() + (1 + 7 - nextMon.getDay()) % 7);
-        console.log(nextMon.getDate());
+        // console.log(nextMon.getDate());
 
 
         if (props.Occurence === "daily" && (pDate.getDate() !== date.getDate() || pDate.getMonth() !== date.getMonth() || pDate.getFullYear() !== date.getFullYear())) {
- 
-            setPercent(0);
-            console.log("PROGRESS BACK TO ZERO :  " + props.HabitName )
-            editHabit(3)
+
+            if (pDate.getFullYear() > 2010) {
+                setPercent(0);
+
+                console.log("PROGRESS BACK TO ZERO :  " + props.HabitName)
+                editHabit(3)
+            }
+
 
             if ((lastDate.getDate() + 1) % daysInMonth.getDate() < date.getDate()) {
-  
-                console.log(lastDate.getDate() + 1)
-                console.log(daysInMonth.getDate())
-                console.log(date.getDate())
-    
-                 console.log("STREAK WOULD RESET FOR THIS HABIT:  " + props.HabitName)
 
-                 if (lastDate.getFullYear() === date.getFullYear())
+                //onsole.log(lastDate.getDate() + 1)
+                //console.log(daysInMonth.getDate())
+                // console.log(date.getDate())
+
+                console.log("STREAK WOULD RESET FOR THIS HABIT:  " + props.HabitName)
+
+                if (lastDate.getFullYear() === date.getFullYear())
                     resetStreak();
-
-
-                
-
-
-
-      
-      
             }
-  
-  
+
+
+        } else {
+            setConnections(connections + 1)
+            
+
         }
-  
-   
-  
+
+
+
         if (props.Occurence === "weekly" && (nextMon.getDate() < date.getDate() || pDate.getMonth() !== date.getMonth() || pDate.getFullYear() !== date.getFullYear())) {
-  
+
             setPercent(0);
 
-            
+
 
 
         }
@@ -396,72 +405,71 @@ function Habit(props) {
 
 
 
-    useEffect (() => {
+
+    useEffect(() => {
+
+
         changePercent()
 
-    },[])
+
+    },[connections])
+
+
+
 
 
     function resetStreak() {
 
-       
-   
-
-       
-    var obj = {
-          accessToken:tok,  
-          habitID:props._id
-          }
 
 
-      var js = JSON.stringify(obj);
 
-      try
-      {
-          console.log("IM IN HERE ")
-          // Axios code follows
-          var config = 
-          {
-              method: 'post',
-              url: bp.buildPath('api/resetStreak'),        // or api/edit or api/searchcards
-              headers: 
-              {
-                  'Content-Type': 'application/json'
-              },
-              data: js
-          };
 
-          axios(config)
-          .then(function (response) 
-          {
-              var res = response.data;
-              if (res.error) 
-              {
-                  setMessage(res.error);
-              }
-              else 
-              {
-                  if( res.error.length > 0 )
-                  {
-                      setMessage( "API Error:" + res.error );
-                  }
-                  else
-                  {
-                      console.log('STREAK RESET FOR: ' + props.HabitName);
-                      
-                  }
-              }
-          })
-          .catch(function (error) 
-          {
-              setMessage(error);
-          });
+        var obj = {
+            accessToken: tok,
+            habitID: props._id
+        }
 
-      }
-      catch(e)
-      {
-          setMessage(e.message);
-      }
+
+        var js = JSON.stringify(obj);
+
+        try {
+            console.log("IM IN HERE ")
+            // Axios code follows
+            var config =
+            {
+                method: 'post',
+                url: bp.buildPath('api/resetStreak'),        // or api/edit or api/searchcards
+                headers:
+                {
+                    'Content-Type': 'application/json'
+                },
+                data: js
+            };
+
+            axios(config)
+                .then(function (response) {
+                    var res = response.data;
+                    if (res.error) {
+                        setMessage(res.error);
+                    }
+                    else {
+                        if (res.error.length > 0) {
+                            setMessage("API Error:" + res.error);
+                        }
+                        else {
+                            console.log('STREAK RESET FOR: ' + props.HabitName);
+
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    setMessage(error);
+                });
+
+        }
+        catch (e) {
+            setMessage(e.message);
+        }
     }
 
     return (

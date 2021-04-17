@@ -1,14 +1,14 @@
 import React from 'react';
 
 import Register from '../components/Register';
-import HeaderLogo from '../components/HeaderLogo';
+import Header from '../components/Header';
 
 
 
 const RegisterPage = () => {
 	return (
 		<div>
-			<HeaderLogo />
+			<Header />
 			<Register  />
 
 		</div>

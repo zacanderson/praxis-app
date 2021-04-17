@@ -1,3 +1,9 @@
+.my-body {
+  background-image: url("../images/praxisbackground2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .my-row {
   height: 80px;
   max-width: 600px;
@@ -66,11 +72,11 @@
   color: #f1f1f1;
 }
 
-#navOption1, #navOption2, #navOption3, #navOption4 {
+#navOption1, #navOption2, #navOption3, #navOption4, #lOut, #flatNav {
   cursor: pointer;
 }
 
-#navOption1:hover, #navOption2:hover, #navOption3:hover, #navOption4:hover {
+#navOption1:hover, #navOption2:hover, #navOption3:hover, #navOption4:hover, #lOut:hover, #flatNav:hover {
   color: white;
 }
 

@@ -41,9 +41,9 @@ function AddModal(props) {
   var ud = jwt.decode(tok, { complete: true });
 
   //    var userId = ud.payload.id;
-  var userId = ud.payload.userId;
-  var firstName = ud.payload.firstName;
-  var lastName = ud.payload.lastName;
+  //var userId = ud.payload.userId;
+  //var firstName = ud.payload.firstName;
+  //var lastName = ud.payload.lastName;
 
   const addCard = async event => {
     event.preventDefault();
@@ -70,14 +70,14 @@ function AddModal(props) {
         .then(function (response) {
           var res = response.data;
           if (res.error) {
-            setMessage(res.error);
+            console.log(res.error);
           }
           else {
             if (res.error.length > 0) {
               setMessage("API Error:" + res.error);
             }
             else {
-              setMessage('Habit has been added');
+              console.log('Habit has been added');
           
               setTimeout(() => {
                 closeModal();
@@ -86,7 +86,7 @@ function AddModal(props) {
           }
         })
         .catch(function (error) {
-          setMessage(error);
+          console.log(error);
         });
 
     }
@@ -264,7 +264,7 @@ function AddModal(props) {
               </div>
             </div>
 
-            <div>{tok}</div>
+            
 
           </Modal.Body>
 

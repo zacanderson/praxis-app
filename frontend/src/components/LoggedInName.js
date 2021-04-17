@@ -22,10 +22,19 @@ function LoggedInName()
     };    
 
   return(
-   <div id="loggedInDiv">
-   <span id="userName">Logged In As {firstName} {lastName}</span><br />
-   <button type="button" id="logoutButton" class="buttons" 
-     onClick={doLogout}> Log Out </button>
+   <div className="container">
+     <div className="row justify-content-center align-items-center mx-auto">
+       <div className="col-6" style={{textAlign:"center"}}>
+       <h3 style={{ fontFamily: 'Bungee', fontSize: 25 }}>Welcome {firstName} {lastName}</h3>
+       </div>
+       
+     </div>
+     <br></br>
+     <br></br>
+    
+     <br></br>
+     
+  
    </div>
   );
   

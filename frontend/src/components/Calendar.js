@@ -1,9 +1,10 @@
 import React from 'react'
-import XMark from '../images/x-mark.png'
+import XMark from '../images/checkMark.png'
 
 function Calendar (props) {
 
     var d = new Date();
+    var checkinDates = []
 
     var months = [
         "January", "February", "March", "April", "May", 
@@ -38,11 +39,30 @@ function Calendar (props) {
    
 
     for (var i = 1; i <= daysInMonth(d.getMonth(), d.getFullYear()); i++) {
-        days.push(<div style={dayStyle} id={"day" + i}>
+
+        if ( typeof props.Checkins !== "undefined") {
+            
+        for (var j = 0; j < props.Checkins.length; j++) {
+
+             
+
+          
+                var date = new Date (props.Checkins[j].Date)
+           
+
+            if (date.getDate() === i && date.getFullYear() === d.getFullYear() && date.getMonth() === d.getMonth()) {
+                checkinDates.push(i)
+
+            }
+
+        }
+    }        
+
+        days.push(<div style={dayStyle} id={"day" + i} key={i}>
             
             {i}
 <br></br>
-            {i <= d.getDate() ? <img src={XMark} alt="x" style={{height:40}}/>: <></>}
+            {checkinDates.includes(i) ? <img src={XMark} alt="x" style={{height:40} } key={i}/>: <></>}
           
         
         </div>)

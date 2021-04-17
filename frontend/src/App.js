@@ -11,17 +11,43 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CalendarPage from './pages/CalendarPage'
 import HeaderLogo from './components/HeaderLogo'
+import HabitsPage from './pages/HabitsPage'
+
 
 
 
 function App() {
+ 
+ 
+	// const styles = {
+	// 	header: {
+	// 		backgroundImage: `url("https://images.unsplash.com/photo-1554189097-ffe88e998a2b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80")`,
+	// 		height: '100vh',
+	// 		backgroundPosition: 'center',
+	// 		backgroundRepeat: 'repeat-x',
+	// 		backgroundSize: 'cover'
+	// 	},
+  
+	// 	content: {
+	// 		height: '100%',
+	// 		width: '100%',
+	// 		backgroundColor: 'rgba(255,255,255, 0.8)',
+	// 	}
+	// }
+  
+  
+  
 	return (
-		<div>
+		<div >
+		<div >
 		<HeaderLogo />
 		<Router>
 			<Switch>
 				<Route path="/" exact>
 					<LoginPage />
+				</Route>
+				<Route path="/Habits" exact>
+					<HabitsPage />
 				</Route>
 				<Route path="/Dashboard" exact>
 					<LoggedInPage />
@@ -41,7 +67,9 @@ function App() {
 			</Switch>
 		</Router>
 		</div>
+		</div>
 	);
-}
+ }
+ 
 
 export default App;

@@ -1,13 +1,16 @@
 import React from 'react';
 import ResetPass from '../components/ResetPassComp';
+import HeaderLogo from '../components/Header';
 
 const ResetPassPage = () => {
 
 	return(
-		<div>
+			<div>
+				<HeaderLogo />
 			<ResetPass />
+			</div>
 
-		</div>
+		
 	);
 
 

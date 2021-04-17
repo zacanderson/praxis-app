@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/esm/Button';
+import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import { Checkmark } from 'react-checkmark';
 
 
 
@@ -71,7 +73,7 @@ function Login() {
 	}
 
 	return (
-		<div>
+		<div style={{ margin: "auto", padding: 10, marginTop: "3%" }}>
 			{/* <div id="loginDiv" className="Login">
 				<form onSubmit={doLogin}>
 					<span id="inner-title">PLEASE LOG IN</span><br />
@@ -87,12 +89,35 @@ function Login() {
 
 			<div className="container my-container mt-5">
 
-				<div className="row my-row justify-content-center align-items-center mx-auto" style={{ height: 160 }} >
+				<div className="row my-row justify-content-center align-items-center mx-auto" style={{ height: 110 }} >
 					<div className="col-md-6 col-sm-6 my-col">
-						<h4 className="text-center">Login to Get Started!</h4>
+						<h4 className="text-center" style={{ fontFamily: 'Bungee', fontSize: 25 }}>Login to Get Started!</h4>
 					</div>
 				</div>
-				<div className="row my-row mx-auto"></div>
+				<div className="row my-row mx-auto align-items-center justify-content-center" style={{ height: 160 }}>
+					<div className=""  style ={{ width: 110, height: 110, padding: 0}} >
+						<CircularProgressbarWithChildren
+							value="100"
+							background="true"
+							styles={buildStyles({
+
+								pathColor: "#797B84",
+								textColor: '#DBABBE',
+								trailColor: '#d6d6d6',
+								backgroundColor: '#BAA1A7',
+
+							})}
+						>
+
+
+
+							<Checkmark size='108px' color="#797B84" />
+
+						</CircularProgressbarWithChildren>
+
+					</div>
+
+				</div>
 				<div className="row my-row justify-content-center align-items-center mx-auto" >
 					<div className="col-md-8 col-sm-6 my-col">
 						<div className="form-group">

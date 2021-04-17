@@ -6,7 +6,7 @@ function BarChart() {
 
     return (
         <div className="container">
-            <div className="row" style={{width:500}} >
+            <div className="row" style={{width:"100%"}} >
                 <div className="col" style={{}}>
                 <Bar
                     data={{
