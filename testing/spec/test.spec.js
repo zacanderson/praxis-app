@@ -319,7 +319,7 @@ describe('Server', () => {
 			//and to have accessToken returned with empty error
 			it('Content', () => {
 				expect(JSON.stringify(data.content)).toContain('accessToken');
-				expect(JSON.stringify(data.content)).toContain('"error":""');
+				expect(JSON.stringify(data.content)).toContain('"error":"No habit found with that id!"');
 	
 			});
 	
