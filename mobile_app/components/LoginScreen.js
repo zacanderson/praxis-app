@@ -44,7 +44,7 @@ export default class LoginScreen extends Component {
 <View style={{  alignItems:"center", flex:0.2 }}>
         <TouchableOpacity style={styles.loginBtn}
         onPress={
-          async () => { this.props.navigation.navigate('Habit', { token: await Login() }); }
+          async () => { this.props.navigation.navigate('Dashboard', { token: await Login() }); }
         }>
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>

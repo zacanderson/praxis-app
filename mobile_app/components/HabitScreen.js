@@ -123,53 +123,9 @@ export default class LoginScreen extends Component
               keyExtractor={item => item._id}
           />
           </View>
-          <View style={styles.bottomBar}>
-            <Button style={styles.bottomBarButton} title="Home" onPress={() => this.props.navigation.navigate('Home')}/>
-            <Button style={styles.bottomBarButton} title="Profile???" onPress={() => this.props.navigation.navigate('Add', { token: this.props.route.params.token })}/>
-            <Button style={styles.bottomBarButton} title="Add Habit"  onPress={() => this.props.navigation.navigate('Dashboard', { token: this.props.route.params.token } )}/>
-      
-          </View>
+          
         </View>
       );
     }
 }
 
-const styles = StyleSheet.create({
-    card: {
-      borderWidth: 2,
-      margin: 5
-    },
-    habitTitle: {
-      alignItems: 'center',
-      borderWidth: 1,
-    },
-    habitBody: {
-
-    },
-    addHabit: {
-      backgroundColor: '#ffffff'
-    },
-    container: {
-      flex: 1,
-      backgroundColor: '#80cced',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    content: {
-      flex: 13,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    bottomBar: {
-      flex: 1,
-      width: '100%',
-      flexDirection: 'row',
-      backgroundColor: '#ffffff',
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-    },
-    bottomBarButton: {
-      flex: 1,
-      margin: 100
-    }
-  });
