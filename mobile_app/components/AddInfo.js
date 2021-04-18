@@ -18,6 +18,8 @@ function AddInfo(props) {
     const [occur, setOccur] = useState("");
     const [amount, setAmount] = useState("");
     const [icon, setIcon] = useState(-1);
+
+
     const [enableNext, setEnableNext] = useState(false)
     const [enableSave, setEnableSave] = useState(false)
 
@@ -27,6 +29,8 @@ function AddInfo(props) {
         if (color !== "" && habitName !== "" && desc !== "" && occur !== "" && amount !== "" && icon !== -1) {
           setEnableSave(true)
 
+          console.log(props.Token)
+
         }
     
     
@@ -34,7 +38,9 @@ function AddInfo(props) {
 
 
       async function addHabit() {
-          date = new Date()
+          var date = new Date()
+          console.log(color + " " + habitName + " " + desc + " " + occur + " " + amount + " " + icon)
+
         let response = await fetch('https://praxis-habit-tracker.herokuapp.com/api/addHabit/', {
           method: 'POST',
           headers: {
@@ -47,7 +53,7 @@ function AddInfo(props) {
             description: desc,
             occurence: occur,
             currentDate:date ,
-            timesPerOccurence: parseInt(amount),
+            timesPerOccurence: amount,
             color: color,
             icon: icon
           })
@@ -55,6 +61,9 @@ function AddInfo(props) {
   
         let json = await response.json();
         console.log(json);
+        
+        console.log("habit added")
+        props.navigation.navigate('Dashboard')
       }
 
 
@@ -273,19 +282,19 @@ function AddInfo(props) {
             <View style={{flexDirection: "row", alignItems:"center", justifyContent:"center"}}>
 
             { enableSave ?
-                <TouchableOpacity style={styles.loginBtn}>
+                <TouchableOpacity style={styles.loginBtn} onPressIn={addHabit}>
                     <Text style={styles.loginText}>Save</Text>
                 </TouchableOpacity> :
 
                
-                <TouchableOpacity style={styles.loginBtn2} onPress={addHabit}>
+                <TouchableOpacity style={styles.loginBtn2} >
                     <Text style={styles.loginText}>Save</Text>
                 </TouchableOpacity>
 
 
             }
 
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={styles.loginBtn} onPress={() => props.navigation.navigate('Dashboard')}>
                 <Text style={styles.loginText}>Cancel</Text>
             </TouchableOpacity>
             </View>

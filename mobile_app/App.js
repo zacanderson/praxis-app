@@ -11,6 +11,8 @@ import RegisterConfirmScreen from './components/RegisterConfirmScreen';
 import HabitScreen from './components/HabitScreen';
 import AddPage from './components/AddScreen';
 import Dashboard from './components/Dashboard';
+import EditScreen from './components/EditScreen';
+
 
 
 var registerEmail = "";
@@ -32,6 +34,7 @@ export default App = () => {
         <RootStack.Screen name="RegisterConfirm" component={RegisterConfirmScreen} />
         <RootStack.Screen name="Habit" component={HabitScreen} />
         <RootStack.Screen name="Dashboard" component={Dashboard} />
+        <RootStack.Screen name="Edit" component={EditScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

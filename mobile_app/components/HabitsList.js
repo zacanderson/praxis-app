@@ -11,6 +11,7 @@ function HabitsList(props) {
 
     const [connected, setConnected] = useState(false)
     const [results, setResults] = useState([])
+    const [update, setUpdate] = useState(0)
 
 
 
@@ -32,26 +33,36 @@ function HabitsList(props) {
         let json = await response.json();
         // console.log(json);
         setResults(json.Habits)
+        
 
         setConnected(true)
+        console.log("SCREEN UPDATE")
 
 
 
 
-    }, [])
+    },[update])
 
+
+    function doUpdate () {
+        setUpdate(update+1)
+    }
+
+  
 
 
 
     return (
 
-        <ScrollView>
+        <TouchableOpacity onPress={() => {setUpdate(update+1)}} activeOpacity={1.0}>
+
+        <ScrollView style={{marginBottom:15}}>
             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
 
                
 
 
-                {results.map((habitInfo, index) => (
+                {connected  && results.map((habitInfo, index) => (
                         <Habit
                             HabitName={habitInfo.HabitName}
                             Description={habitInfo.Description}
@@ -69,6 +80,8 @@ function HabitsList(props) {
                             Checkins={habitInfo.Checkins}
                             key={index}
                             Token={props.Token}
+                            Navigation={props.Navigation}
+                           
                         />
                  
                 )
@@ -88,7 +101,9 @@ function HabitsList(props) {
                 <Habit /> */}
 
             </View>
+            
         </ScrollView>
+        </TouchableOpacity>
 
 
     )

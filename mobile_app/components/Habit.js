@@ -4,6 +4,7 @@ import Modal from 'react-native-modal';
 import { Picker } from '@react-native-picker/picker';
 import Icons from './Icons'
 import ProgressCircle from 'react-native-progress-circle'
+import Edit from "./Edit"
 
 
 
@@ -11,15 +12,39 @@ import ProgressCircle from 'react-native-progress-circle'
 function Habits(props) {
 
     const [percent, setPercent] = useState(props.Percent)
+    const [before, setBefore] = useState()
     const [icon, setIcon] = useState(props.Icon)
+    const [hold, setHold] = useState(false)
+    const [show, setShow] = useState(false)
+
 
     function countProgress() {
-        percent < 100 ? setPercent(percent + 100 / props.TimesPerOccurence) : setPercent(100);
+     
+            setBefore(percent)
+            percent < 100 ? setPercent(percent + 100 / props.TimesPerOccurence) : setPercent(100)
+
+            
+
+        
+
+       
+           
+      
+
+        
+        console.log(percent)
+       
         editHabit(1)
     }
 
     function undoProgress() {
-        percent > 0 ? setPercent(percent - 100 / props.TimesPerOccurence - 100 / props.TimesPerOccurence) : setPercent(0);
+       
+            undoCheckin()
+            
+            percent > 0 ? setPercent(before - 100 / props.TimesPerOccurence) : setPercent(0);
+          
+
+      
         editHabit(2)
 
     }
@@ -30,12 +55,17 @@ function Habits(props) {
         var date = new Date();
 
         if (value === 1) {
+
+            if(percent !== 100)
             tempPercent = percent < 100 ? percent + 100 / props.TimesPerOccurence : 100;
-            console.log(tempPercent)
+           
+            //console.log(tempPercent)
             console.log(props)
         }
         else if (value === 2) {
-            tempPercent = percent > 0 ? (percent - 100 / props.TimesPerOccurence - 100 / props.TimesPerOccurence) : 0;
+    
+                tempPercent = before > 0 ? (before - 100 / props.TimesPerOccurence ) : 0;
+           
 
         }
         else if (value === 3) {
@@ -87,7 +117,8 @@ function Habits(props) {
     }
 
 
-     async function countCheckin() {
+    async function countCheckin() {
+        
         var date = new Date()
         console.log(date)
 
@@ -109,7 +140,7 @@ function Habits(props) {
             lStreak = streak;
 
 
-      
+
 
 
         //var js = JSON.stringify(obj);
@@ -131,15 +162,89 @@ function Habits(props) {
 
         });
         let json = await response.json();
+        console.log("CHECKIN ADDED")
 
     };
+
+
+    async function undoCheckin() {
+        
+        var date = new Date()
+        var lastDate = new Date(null)
+
+
+        if (props.Checkins.length !== 0) {
+            lastDate = new Date(props.Checkins[props.Checkins.length - 1].Date)
+        }
+
+        console.log(before)
+
+        console.log("IN HERE")
+
+
+
+
+
+        if (before === 100 && (lastDate.getDate() === date.getDate())) {
+
+            console.log("IN HERE")
+
+
+
+        //var js = JSON.stringify(obj);
+
+        let response = await fetch('https://praxis-habit-tracker.herokuapp.com/api/undoCheckin/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accessToken: props.Token,
+                habitID: props._id
+            })
+
+        });
+        let json = await response.json();
+        console.log("CHECKIN UNDID")
+    }
+    };
+
+
+  
+
+    function goEdit() {
+
+        //console.log(props.Token)
+        props.Navigation.navigate('Edit', { token: props.Token })
+
+    }
 
 
 
 
     return (
 
+       
         <View style={{ width: "50%", alignItems: "center", marginTop: 20 }}>
+             {show && <Edit
+                            HabitName={props.HabitName}
+                            Description={props.Description}
+                            Occurence={props.Occurence}
+                            TimesPerOccurence={props.TimesPerOccurence}
+                            Color={props.Color}
+                            Icon={props.Icon}
+                            _id={props._id}
+                            LastCheckinDate={props.LastCheckinDate}
+                            CurrentStreak={props.CurrentStreak}
+                            LongestStreak={props.LongestStreak}
+                            Progress={props.Progress}
+                            Checkins={props.Checkins}
+                            Navigation={props.Navigation}
+                            Hide={() => setShow(false)}
+                            Show={show}
+                            Token={props.Token}
+            ></Edit>}
 
             <TouchableOpacity onPressIn={countProgress} onLongPress={undoProgress}  >
                 <ProgressCircle
@@ -148,22 +253,29 @@ function Habits(props) {
                     borderWidth={8}
                     color={props.Color}
                     shadowColor="#999"
-                    bgColor="#fff"
+                    bgColor= {percent >= 100 ?props.Color: "#fff"}
                 >
-                    {icon === 0 && <Image source={require(`./images/icons/${0}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 1 && <Image source={require(`./images/icons/${1}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 2 && <Image source={require(`./images/icons/${2}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 3 && <Image source={require(`./images/icons/${3}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 4 && <Image source={require(`./images/icons/${4}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 5 && <Image source={require(`./images/icons/${5}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 6 && <Image source={require(`./images/icons/${6}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 7 && <Image source={require(`./images/icons/${7}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 8 && <Image source={require(`./images/icons/${8}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 9 && <Image source={require(`./images/icons/${9}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
-                    {icon === 10 && <Image source={require(`./images/icons/${10}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    { percent > 100 && <Image source={require('./images/checkmarkDONE.png')} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    { percent === 100 && <Image source={require('./images/checkmarkDONE.png')} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+
+                    {icon === 0 && percent < 100 && <Image source={require(`./images/icons/${0}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 1 && percent < 100 && <Image source={require(`./images/icons/${1}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 2 && percent < 100 && <Image source={require(`./images/icons/${2}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 3 && percent < 100 && <Image source={require(`./images/icons/${3}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 4 && percent < 100 && <Image source={require(`./images/icons/${4}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 5 && percent < 100 && <Image source={require(`./images/icons/${5}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 6 && percent < 100 && <Image source={require(`./images/icons/${6}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 7 && percent < 100 && <Image source={require(`./images/icons/${7}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 8 && percent < 100 && <Image source={require(`./images/icons/${8}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 9 && percent < 100 && <Image source={require(`./images/icons/${9}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
+                    {icon === 10 && percent < 100 && <Image source={require(`./images/icons/${10}.png`)} style={{ width: 90, height: 50, flex: 0.5, resizeMode: 'contain' }} />}
                 </ProgressCircle>
             </TouchableOpacity>
-            <Text style={{ fontFamily: 'Bungee-Regular', fontSize: 17 }}>{props.HabitName}</Text>
+            <TouchableOpacity onPress={() => {setShow(true)}}>
+                <Text style={{ fontFamily: 'Bungee-Regular', fontSize: 17 }}>{props.HabitName}</Text>
+            </TouchableOpacity>
+
+
 
 
         </View>
