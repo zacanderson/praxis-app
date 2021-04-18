@@ -13,6 +13,8 @@ import CalendarPage from './pages/CalendarPage'
 import HeaderLogo from './components/HeaderLogo'
 import HabitsPage from './pages/HabitsPage'
 import StatsPage from './pages/StatsPage'
+import ResendPage from './pages/ResendPage'
+
 
 
 
@@ -69,6 +71,9 @@ function App() {
 				</Route>
 				<Route path="/Calendar" exact>
 					<CalendarPage />
+				</Route>
+				<Route path="/Resend" exact>
+					<ResendPage />
 				</Route>
 			</Switch>
 		</Router>

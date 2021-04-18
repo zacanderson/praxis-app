@@ -72,6 +72,12 @@ function Login() {
 		window.location.href = '/Register';
 	}
 
+	const resend = async event => {
+		event.preventDefault();
+		window.location.href = '/Resend';
+	}
+
+
 	return (
 		<div style={{ margin: "auto", padding: 10, marginTop: "3%" }}>
 			{/* <div id="loginDiv" className="Login">
@@ -160,6 +166,13 @@ function Login() {
 				<div className="row my-row justify-content-center align-items-start mx-auto" >
 					<div className="col-md-6 col-sm-6 my-col">
 						<h6 className="text-center" onClick={resetPass} style={{cursor: "pointer"}}><a>Need Help? Click Here</a></h6>
+					</div>
+
+				</div>
+
+				<div className="row my-row justify-content-center align-items-start mx-auto" >
+					<div className="col-md-6 col-sm-6 my-col">
+						<h6 className="text-center" onClick={resend} style={{cursor: "pointer"}}><a>Resend Verification</a></h6>
 					</div>
 
 				</div>
