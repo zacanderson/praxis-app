@@ -54,12 +54,45 @@ function newPassword(){
 	}
 
 	return(
-		<div id="resetPass">
-			<span id="inner-title">Reset Password</span><br />
-			<input type="password" id="password" placeholder="password" ref={(c) => password = c}  /><br />
-			<input type="submit" id="loginButton" class="buttons" value = "Do It" onClick={resetPassword} />
+		
+<div style={{ margin: "auto", padding: 10, marginTop: "3%" }}>
+		
+
+		<div className="container my-container mt-5">
+
+			<div className="row my-row justify-content-center align-items-center mx-auto" style={{ height: 110 }} >
+				<div className="col-md-6 col-sm-6 my-col">
+					<h4 className="text-center" style={{ fontFamily: 'Bungee', fontSize: 25 }}>New Password</h4>
+				</div>
+			</div>
+			
+			<div className="row my-row justify-content-center align-items-center mx-auto" >
+				<div className="col-md-8 col-sm-6 my-col">
+					<div className="form-group">
+						<input type="password" className="form-control" placeholder="password "ref={(c) => password = c} />
+
+
+					</div>
+				</div>
+
+			</div>
+			
+			<div className="row my-row justify-content-center align-items-center mx-auto">
+				<div className="col-4 col my-col">
+					<Button variant="secondary" onClick={resetPassword} size="lg" block>Reset</Button>
+				</div>
+
+
+			</div>
+			
+
+
+
+
 
 		</div>
+
+	</div>
 	);
 
 };
