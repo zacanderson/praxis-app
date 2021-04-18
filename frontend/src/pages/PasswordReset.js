@@ -1,6 +1,6 @@
 import React from 'react';
 import NewPassword from '../components/newPassword';
-import HeaderLogo from '../components/Header'
+import Header from '../components/Header'
 
 const PassResetPage = () => {
 
