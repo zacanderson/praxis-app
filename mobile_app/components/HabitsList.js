@@ -63,7 +63,9 @@ function HabitsList(props) {
 
 
 
-
+//       if (connected === false)
+//       return (<ScrollView></ScrollView>)
+//   else
     return (
 
       // <TouchableOpacity  activeOpacity={1.0}>
@@ -83,7 +85,7 @@ function HabitsList(props) {
 
 
 
-                    {connected && results.map((habitInfo, index) => (
+                    {connected && typeof results !== "undefined" && results.map((habitInfo, index) => (
                         <Habit
                             HabitName={habitInfo.HabitName}
                             Description={habitInfo.Description}

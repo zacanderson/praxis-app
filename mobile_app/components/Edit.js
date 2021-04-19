@@ -71,11 +71,8 @@ function Edit(props) {
 
         console.log("habit added")
         props.Refresh()
+        props.Hide()
 
-        setTimeout(() => {
-            
-            props.Hide()
-        },5000)
        
        
     }
@@ -200,7 +197,7 @@ function Edit(props) {
             transparent={false}
             visible={props.Show}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
+               // Alert.alert("Modal has been closed.");
                 setModalVisible(false);
             }}
         >
@@ -251,7 +248,7 @@ function Edit(props) {
                     <TextInput
                         multiline={true}
                         numberOfLines={5}
-                        style={{ height: "100%" }}
+                        style={{ height: "100%", color:"black" }}
                         onChangeText={text => setDesc(text)}
                         value={desc}
                     />

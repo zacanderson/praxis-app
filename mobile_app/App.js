@@ -12,6 +12,8 @@ import HabitScreen from './components/HabitScreen';
 import AddPage from './components/AddScreen';
 import Dashboard from './components/Dashboard';
 import EditScreen from './components/EditScreen';
+import { LogBox } from 'react-native';
+
 
 
 
@@ -24,6 +26,8 @@ global.authKey = "asdfasdfa";
 const RootStack = createStackNavigator();
  
 export default App = () => {
+
+  LogBox.ignoreAllLogs();
   return (
     <NavigationContainer>
       <RootStack.Navigator>

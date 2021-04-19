@@ -163,7 +163,7 @@ function AddInfo(props) {
                 <TextInput
                     multiline={true}
                     numberOfLines={5}
-                    style={{ height: "100%" }}
+                    style={{ height: "100%", color:"black" }}
                     onChangeText={text => setDesc(text)}
                 />
             </View>
